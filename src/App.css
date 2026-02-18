@@ -30,9 +30,8 @@
   flex-direction: column;
   gap: 15px;
 }
-.exercise-grid {
+.exercise-grid { /* New class for the exercise cards grid */
   display: grid;
-  /* This creates as many columns as will fit, at least 300px wide each */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 25px;
   width: 100%;
