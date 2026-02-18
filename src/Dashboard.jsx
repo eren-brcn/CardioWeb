@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 
 function Dashboard() {
   const [exercises, setExercises] = useState([])
-  // Use the Render URL if you are ready for deployment!
-  const API_URL = "https://cardioweb.onrender.com/exercises";
+  // Render Live Url
+
+  const API_URL = "https://cardioweb.onrender.com/exercises"; 
 
   useEffect(() => {
     fetch(API_URL)
@@ -11,9 +12,26 @@ function Dashboard() {
       .then(data => setExercises(data))
   }, [])
 
-  const handleUpdate = (id, currentWeight) => { // for incrementing weight by 5kg
+  // New exercise 
+  const handleAdd = () => {
+    const newExercise = {
+      title: "New Exercise", // title for new exercise
+
+      currentWeight: 0
+    };
+
+    fetch(API_URL, { 
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newExercise)
+    })
+    .then(res => res.json())
+    .then(data => setExercises([...exercises, data]));
+  };
+
+  const handleUpdate = (id, currentWeight) => {
     fetch(`${API_URL}/${id}`, {
-      method: 'PATCH', 
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ currentWeight: currentWeight + 5 })
     })
@@ -23,12 +41,30 @@ function Dashboard() {
 
   const handleDelete = (id) => {
     fetch(`${API_URL}/${id}`, { method: 'DELETE' })
-      .then(() => setExercises(exercises.filter(ex => ex.id !== id)))
+    .then(() => setExercises(exercises.filter(ex => ex.id !== id)))
   }
 
   return (
     <div style={{ padding: '40px', width: '100%' }}>
       <h1>Workout Dashboard</h1>
+      
+      {/* Ekleme Butonu */}
+      <button 
+        onClick={handleAdd} 
+        style={{ 
+          marginBottom: '20px', 
+          padding: '10px 20px', 
+          backgroundColor: '#4CAF50', 
+          color: 'white', 
+          border: 'none', 
+          borderRadius: '8px', 
+          cursor: 'pointer',
+          fontWeight: 'bold'
+        }}
+      >
+        + Yeni Egzersiz Ekle
+      </button>
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
         {exercises.map((ex) => (
           <div key={ex.id} style={{ border: '1px solid #444', padding: '20px', borderRadius: '12px', background: '#1a1a1a' }}>

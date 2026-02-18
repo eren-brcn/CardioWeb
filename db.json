@@ -4,27 +4,22 @@
     { "id": "2", "name": "Cardio" },
     { "id": "3", "name": "Yoga" }
   ],
+ 
   "exercises": [
     {
-      "id": "101",
+      "id": "1",
       "title": "Bench Press",
-      "currentWeight": 60,
-      "targetWeight": 80,
-      "reps": 10,
-      "sets": 3,
-      "isCompleted": false,
-      "categoryId": "1"
+      "currentWeight": 60
     },
     {
-      "id": "102",
-      "title": "Treadmill Run",
-      "currentWeight": 0,
-      "targetWeight": 0,
-      "reps": 0,
-      "sets": 0,
-      "duration": 30,
-      "isCompleted": true,
-      "categoryId": "2"
+      "id": "2",
+      "title": "Squats",
+      "currentWeight": 80
+    },
+    {
+      "id": "3",
+      "title": "Deadlift",
+      "currentWeight": 100
     }
   ]
 }
