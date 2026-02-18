@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 function Dashboard() {
   const [exercises, setExercises] = useState([])
   // Use the Render URL if you are ready for deployment!
-  const API_URL = "http://localhost:5005/exercises" 
+  const API_URL = "https://cardioweb.onrender.com"
 
   useEffect(() => {
     fetch(API_URL)
@@ -11,9 +11,9 @@ function Dashboard() {
       .then(data => setExercises(data))
   }, [])
 
-  const handleUpdate = (id, currentWeight) => {
+  const handleUpdate = (id, currentWeight) => { // for incrementing weight by 5kg
     fetch(`${API_URL}/${id}`, {
-      method: 'PATCH',
+      method: 'PATCH', 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ currentWeight: currentWeight + 5 })
     })
