@@ -1,20 +1,20 @@
-import Navbar from './Navbar'
-import Sidebar from './Sidebar'
-import Dashboard from './Dashboard' // 1. Import it
-import './App.css'
+// Import React Router components
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './Pages/Dashboard.jsx';
+import CategoriesPage from './Pages/CategoriesPage.jsx'; 
+import Navbar from './components/Navbar.jsx';
 
+// Main App component with routing
 function App() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Router>
       <Navbar />
-      <div style={{ display: 'flex', flex: 1 }}>
-        <Sidebar />
-        <main style={{ flex: 1, backgroundColor: '#131313', color: 'white' }}>
-          <Dashboard /> {/* 2. Call it here */}
-        </main>
-      </div>
-    </div>
-  )
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
