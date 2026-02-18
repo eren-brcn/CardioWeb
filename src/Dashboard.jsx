@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 function Dashboard() {
   const [exercises, setExercises] = useState([])
   // Use the Render URL if you are ready for deployment!
-  const API_URL = "https://cardioweb.onrender.com"
+  const API_URL = "https://cardioweb.onrender.com/exercises";
 
   useEffect(() => {
     fetch(API_URL)
