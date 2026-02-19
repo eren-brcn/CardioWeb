@@ -1,71 +1,79 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const API_URL = "https://cardioweb.onrender.com/exercises";
+const API_URL = "https://cardio-backend-gfev.onrender.com";
 
 function ExerciseList() {
-  // State to store the exercises
   const [exercises, setExercises] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
 
-  // Fetch exercises on component mount
-  useEffect(() => { 
-    fetch(API_URL) 
-      .then(res => res.json())
-      .then(data => setExercises(data))
-      .catch(err => console.error("Error:", err));
+  useEffect(() => {
+    const fetchData = async () => {
+      const [exRes, catRes] = await Promise.all([
+        axios.get(`${API_URL}/exercises`),
+        axios.get(`${API_URL}/categories`)
+      ]);
+      setExercises(exRes.data);
+      setCategories(catRes.data);
+    };
+    fetchData();
   }, []);
 
-  // Add a new exercise
-  const handleAdd = () => {  
-    const newExercise = { title: "New Exercise", currentWeight: 0 }; 
-    fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newExercise)
-    })
-    .then(res => res.json()) 
-    .then(data => setExercises([...exercises, data]));
-  };
-
-  // Update exercise weight
-  const handleUpdate = (id, currentWeight) => {
-    fetch(`${API_URL}/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentWeight: currentWeight + 5 })
-    })
-    .then(res => res.json())
-    .then(updated => setExercises(exercises.map(ex => ex.id === id ? updated : ex)));
-  };
-
-  // Delete an exercise
-  const handleDelete = (id) => {
-    fetch(`${API_URL}/${id}`, { method: 'DELETE' }) 
-    .then(() => setExercises(exercises.filter(ex => ex.id !== id)));
-  };
-
   return (
-    <div>
-      <button onClick={handleAdd} style={btnStyle}>+ Add New Exercise</button>
-      
-      <div style={gridStyle}>
-        {exercises.map(ex => (
-          <div key={ex.id} style={cardStyle}>
-            <h2>{ex.title}</h2>
-            <p>Weight: <strong>{ex.currentWeight} kg</strong></p>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <button onClick={() => handleUpdate(ex.id, ex.currentWeight)}>+5kg</button>
-              <button onClick={() => handleDelete(ex.id)} style={{ color: 'red' }}>Delete</button>
-            </div>
-          </div>
+    <div style={{ padding: '20px', color: 'white' }}>
+      {/* 1. Category Buttons */}
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        {categories.map(cat => (
+          <button 
+            key={cat.id} 
+            onClick={() => setActiveCategory(cat)}
+            style={navBtnStyle}
+          >
+            {cat.name}
+          </button>
         ))}
       </div>
+
+      {/* 2. Instruction Panel */}
+      {activeCategory ? (
+        <div style={guideBoxStyle}>
+          <h2 style={{ color: '#4CAF50' }}>{activeCategory.name} Training Guide</h2>
+          <p><strong>The Goal:</strong> {activeCategory.description}</p>
+          <p><strong>How to do it:</strong> {activeCategory.howTo}</p>
+          <p style={{ fontStyle: 'italic', color: '#888' }}>Benefit: {activeCategory.benefit}</p>
+          
+          <h4 style={{ marginTop: '20px' }}>Recommended {activeCategory.name} Exercises:</h4>
+          <ul>
+            {exercises.filter(ex => ex.category === activeCategory.name).map(ex => (
+              <li key={ex.id}>{ex.title} - (Weight/Intensity: {ex.currentWeight}kg)</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Click a category above to see instructions and exercises.</p>
+      )}
     </div>
   );
 }
 
-// Styling
-const gridStyle = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' };
-const cardStyle = { border: '1px solid #444', padding: '20px', borderRadius: '12px', background: '#1a1a1a' };
-const btnStyle = { marginBottom: '20px', padding: '10px', backgroundColor: '#4CAF50', color: 'white', borderRadius: '8px', cursor: 'pointer' };
+const navBtnStyle = {
+  padding: '10px 15px',
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  fontWeight: 'bold',
+  fontSize: '14px'
+};
+
+const guideBoxStyle = {
+  backgroundColor: '#333',
+  padding: '20px',
+  borderRadius: '8px',
+  marginTop: '20px',
+  borderLeft: '4px solid #4CAF50'
+};
 
 export default ExerciseList;

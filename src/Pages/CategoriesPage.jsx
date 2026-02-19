@@ -1,22 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
+const API_URL = "https://cardio-backend-gfev.onrender.com";
 
 function CategoriesPage() {
   const [categories, setCategories] = useState([]);
-  const CAT_URL = "https://cardioweb.onrender.com/categories";
 
   useEffect(() => {
-    fetch(CAT_URL)
-      .then(res => res.json())
-      .then(data => setCategories(data));
+    // // Fetching the categories backend  
+    axios.get(`${API_URL}/categories`)
+      .then((res) => {
+        setCategories(res.data);
+      })
+      .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h1>Exercise Categories</h1>
-      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-        {categories.map(cat => (
-          <div key={cat.id} style={{ padding: '30px', background: '#222', borderRadius: '15px', border: '1px solid #4CAF50', textAlign: 'center', minWidth: '150px' }}>
-            <h2 style={{ color: '#4CAF50' }}>{cat.name}</h2>
+    <div>
+      <h1>Training Guides</h1>
+      
+      <div>
+        {categories.map((cat) => (
+         
+          <div key={cat.id}>
+            <Link to={`/categories/${cat.name}`}>
+              <h3>{cat.name}</h3>
+              <p>View {cat.name} Training Guide</p>
+            </Link>
           </div>
         ))}
       </div>
