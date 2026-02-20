@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_URL = "https://cardio-backend-gfev.onrender.com";
+const API_URL = "https://cardio-backend-1-lq31.onrender.com";
 
 function CategoryDetail() {
   const { categoryName } = useParams(); 
