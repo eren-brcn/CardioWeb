@@ -54,7 +54,6 @@ function ExerciseList() {
 
   return (
     <div style={{ padding: '20px', color: 'white' }}>
-      <h1>Dashboard</h1>
       <AddExercise onExerciseAdded={fetchData} />
 
       <div style={{ marginBottom: '20px' }}>
