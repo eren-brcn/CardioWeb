@@ -70,3 +70,157 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* --- Global Gym App Theme --- */
+:root {
+  --neon-green: #a3ff00;
+  --dark-bg: #121212;
+  --card-bg: #1e1e1e;
+  --text-gray: #cccccc;
+}
+
+body {
+  background-color: var(--dark-bg);
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Category Detail Page Styles --- */
+.category-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--neon-green);
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  border: 1px solid var(--neon-green);
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.back-link:hover {
+  background: var(--neon-green);
+  color: black;
+}
+
+.category-title {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  border-left: 8px solid var(--neon-green);
+  padding-left: 20px;
+}
+
+/* --- The Info Boxes (About, How to, Benefit) --- */
+.info-box {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  border: 1px solid #333;
+}
+
+.info-box h3 {
+  color: var(--neon-green);
+  margin-top: 0;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.info-box p {
+  line-height: 1.8;
+  color: var(--text-gray);
+  font-size: 1.1rem;
+}
+
+/* --- Exercise Cards at Bottom --- */
+.exercise-card {
+  background: #252525;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #444;
+}
+
+.exercise-card span {
+  color: var(--neon-green);
+  font-weight: bold;
+}
+/* --- Footer Styles --- */
+.main-footer {
+  background-color: #1a1a1a;
+  border-top: 1px solid #333;
+  padding: 30px 0;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.footer-content p {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.neon-text {
+  color: var(--neon-green);
+  font-weight: bold;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: #555;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-links span:hover {
+  color: var(--neon-green);
+  cursor: pointer;
+}
+/* --- Navbar Styling --- */
+.navbar {
+  display: flex;
+  gap: 30px;
+  padding: 20px 40px;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.nav-link {
+  color: #4CAF50; /* The green from your dashboard */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #a3ff00; /* Neon green on hover */
+  transform: translateY(-2px);
+}
+
+/* --- Layout Helper --- */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1; /* This makes sure the footer stays at the bottom */
+}
