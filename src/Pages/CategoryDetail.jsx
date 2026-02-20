@@ -5,69 +5,72 @@ import axios from "axios";
 const API_URL = "https://cardio-backend-gfev.onrender.com";
 
 function CategoryDetail() {
-
   const { categoryName } = useParams(); 
   const navigate = useNavigate();
   
-  // // States to store the data 
   const [categoryInfo, setCategoryInfo] = useState(null);
   const [exercises, setExercises] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
+    const getDetailData = async () => {
       try {
         const [catRes, exRes] = await Promise.all([
           axios.get(`${API_URL}/categories`),
           axios.get(`${API_URL}/exercises`)
         ]);
 
-        // // Find the category in your db.json that matches the URL
+        // Matches the name from the URL to the JSON data
         const foundCat = catRes.data.find(c => c.name === categoryName);
         setCategoryInfo(foundCat);
 
-        // // Filter exercises
+        // Filters list to show only exercises for this category
         const filteredEx = exRes.data.filter(ex => ex.category === categoryName);
         setExercises(filteredEx);
       } catch (error) {
-        console.error("Error loading category details:", error);
+        console.error("Error loading guide:", error);
       }
     };
     
-    getData();
-    
+    getDetailData();
   }, [categoryName]);
 
-  //Prevents the empty screen while the API coming
-  if (!categoryInfo) return <div>Loading guide...</div>;
+  if (!categoryInfo) return <div style={{color: 'white', padding: '20px'}}>Loading {categoryName} manual...</div>;
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>← Back</button>
+    <div style={{ padding: '20px', color: 'white', maxWidth: '800px', margin: '0 auto' }}>
+      <button onClick={() => navigate(-1)} style={{ marginBottom: '20px', padding: '5px 15px', cursor: 'pointer' }}>
+        ← Back to Categories
+      </button>
       
-      <h1>{categoryInfo.name} Training</h1>
+      <h1 style={{ color: '#4CAF50', borderBottom: '2px solid #4CAF50', paddingBottom: '10px' }}>
+        {categoryInfo.name} Guide
+      </h1>
       
-      <section>
-        <h3>About this workout</h3>
-        <p>{categoryInfo.description}</p>
-        
-        <h3>How to perform</h3>
-        <p>{categoryInfo.howTo}</p>
-        
-        <p><strong>Benefit:</strong> {categoryInfo.benefit}</p>
-      </section>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
+        <div style={{ background: '#1a1a1a', padding: '20px', borderRadius: '10px', border: '1px solid #333' }}>
+          <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>📖 About this Training</h3>
+          <p style={{ lineHeight: '1.6', opacity: 0.9 }}>{categoryInfo.description}</p>
+        </div>
 
-      <section>
-        <h3>Recommended Exercises</h3>
-        {exercises.length > 0 ? (
-          exercises.map(ex => (
-            <div key={ex.id}>
-              <strong>{ex.title}</strong> — {ex.currentWeight}kg
-            </div>
-          ))
-        ) : (
-          <p>No exercises listed for this category yet.</p>
-        )}
-      </section>
+        <div style={{ background: '#1a1a1a', padding: '20px', borderRadius: '10px', border: '1px solid #333' }}>
+          <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>⚙️ How to Perform</h3>
+          <p style={{ lineHeight: '1.6', opacity: 0.9 }}>{categoryInfo.howTo}</p>
+        </div>
+
+        <div style={{ background: '#222', padding: '20px', borderRadius: '10px', borderLeft: '5px solid #4CAF50' }}>
+          <h3 style={{ margin: '0 0 10px 0', color: '#4CAF50' }}>💡 Benefit:</h3>
+          <p style={{ fontWeight: 'bold' }}>{categoryInfo.benefit}</p>
+        </div>
+      </div>
+
+      <h2 style={{ marginTop: '40px' }}>Related Exercises in your List</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {exercises.map(ex => (
+          <div key={ex.id} style={{ background: '#1a1a1a', padding: '15px', borderRadius: '8px', border: '1px solid #222' }}>
+            <strong>{ex.title}</strong> — Currently at {ex.currentWeight}kg
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

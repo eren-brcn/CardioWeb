@@ -1,79 +1,130 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AddExercise from "./AddExercise";
 
 const API_URL = "https://cardio-backend-gfev.onrender.com";
 
 function ExerciseList() {
   const [exercises, setExercises] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/exercises`);
+      setExercises(res.data);
+    } catch (err) {
+      console.error("Error fetching exercises:", err);
+    }
+  };
+
+  // // UPDATE: This function changes the weight in the database
+  const updateWeight = async (exercise, amount) => {
+    const updatedExercise = { 
+      ...exercise, 
+      currentWeight: exercise.currentWeight + amount 
+    };
+
+    try {
+      // PUT updates an existing item in your Render backend
+      await axios.put(`${API_URL}/exercises/${exercise.id}`, updatedExercise);
+      fetchData(); // Refresh the list to show the new weight
+    } catch (err) {
+      console.error("Error updating weight:", err);
+    }
+  };
+
+  const deleteExercise = async (id) => {
+    if (window.confirm("Delete this workout?")) {
+      try {
+        await axios.delete(`${API_URL}/exercises/${id}`);
+        fetchData();
+      } catch (err) {
+        console.error("Error deleting:", err);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const [exRes, catRes] = await Promise.all([
-        axios.get(`${API_URL}/exercises`),
-        axios.get(`${API_URL}/categories`)
-      ]);
-      setExercises(exRes.data);
-      setCategories(catRes.data);
-    };
     fetchData();
   }, []);
 
+  const filteredExercises = exercises.filter((ex) =>
+    ex.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div style={{ padding: '20px', color: 'white' }}>
-      {/* 1. Category Buttons */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        {categories.map(cat => (
-          <button 
-            key={cat.id} 
-            onClick={() => setActiveCategory(cat)}
-            style={navBtnStyle}
-          >
-            {cat.name}
-          </button>
-        ))}
+      <h1>Dashboard</h1>
+      <AddExercise onExerciseAdded={fetchData} />
+
+      <div style={{ marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Search exercises..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: '10px',
+            width: '100%',
+            maxWidth: '400px',
+            borderRadius: '5px',
+            border: '1px solid #4CAF50',
+            background: '#222',
+            color: 'white'
+          }}
+        />
       </div>
 
-      {/* 2. Instruction Panel */}
-      {activeCategory ? (
-        <div style={guideBoxStyle}>
-          <h2 style={{ color: '#4CAF50' }}>{activeCategory.name} Training Guide</h2>
-          <p><strong>The Goal:</strong> {activeCategory.description}</p>
-          <p><strong>How to do it:</strong> {activeCategory.howTo}</p>
-          <p style={{ fontStyle: 'italic', color: '#888' }}>Benefit: {activeCategory.benefit}</p>
-          
-          <h4 style={{ marginTop: '20px' }}>Recommended {activeCategory.name} Exercises:</h4>
-          <ul>
-            {exercises.filter(ex => ex.category === activeCategory.name).map(ex => (
-              <li key={ex.id}>{ex.title} - (Weight/Intensity: {ex.currentWeight}kg)</li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>Click a category above to see instructions and exercises.</p>
-      )}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
+        gap: '20px' 
+      }}>
+        {filteredExercises.map((ex) => (
+          <div key={ex.id} style={{ 
+            background: '#1a1a1a', 
+            padding: '20px', 
+            borderRadius: '12px', 
+            border: '1px solid #333',
+            position: 'relative'
+          }}>
+            <button 
+              onClick={() => deleteExercise(ex.id)}
+              style={{
+                position: 'absolute', top: '10px', right: '10px',
+                background: '#ff4444', color: 'white', border: 'none', borderRadius: '4px'
+              }}
+            >
+              X
+            </button>
+
+            <h3 style={{ color: '#4CAF50', marginTop: 0 }}>{ex.title}</h3>
+            <p style={{ margin: '5px 0', opacity: 0.7 }}>{ex.category}</p>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
+              <button 
+                onClick={() => updateWeight(ex, -2.5)}
+                style={{ padding: '5px 10px', cursor: 'pointer' }}
+              >
+                -
+              </button>
+              
+              <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+                {ex.currentWeight} kg
+              </span>
+
+              <button 
+                onClick={() => updateWeight(ex, 2.5)}
+                style={{ padding: '5px 10px', cursor: 'pointer' }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
-
-const navBtnStyle = {
-  padding: '10px 15px',
-  backgroundColor: '#4CAF50',
-  color: 'white',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  fontWeight: 'bold',
-  fontSize: '14px'
-};
-
-const guideBoxStyle = {
-  backgroundColor: '#333',
-  padding: '20px',
-  borderRadius: '8px',
-  marginTop: '20px',
-  borderLeft: '4px solid #4CAF50'
-};
 
 export default ExerciseList;
