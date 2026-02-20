@@ -1,16 +1,32 @@
-# React + Vite
+# ⚡ CardioWeb - Modern Fitness Tracking App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*CardioWeb* is a high-performance fitness dashboard built with React. It helps users track their gym progress and access detailed training guides for specific muscle groups. The app features a professional "Midnight Neon" dark-mode aesthetic.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+* *Frontend:* [https://cardioweb.onrender.com](https://cardioweb.onrender.com)
+* *Backend API:* [https://cardio-backend-1-lq31.onrender.com](https://cardio-backend-1-lq31.onrender.com)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
+* *Workout Management:* Log exercises, weight (kg), and muscle groups instantly.
+* *Smart Filtering:* Search through your exercise history with a real-time search bar.
+* *Deep-Dive Guides:* Dedicated pages for Chest, Back, Legs, and Cardio with "About," "How-to," and "Benefit" sections.
+* *Persistent Data:* Connected to a custom JSON-Server backend hosted on Render.
+* *Responsive Design:* Fully styled with a custom CSS framework for a premium look.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
+* *Frontend:* React (Vite), React Router, Axios
+* *Backend:* JSON-Server (deployed as a separate Web Service)
+* *Styling:* CSS3 with Global Theme Variables
+* *Hosting:* Render
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🏗️ How to Install
+
+1. *Clone the project:*
+   ```bash
+   git clone [https://github.com/your-username/CardioWeb.git](https://github.com/your-username/CardioWeb.git)
