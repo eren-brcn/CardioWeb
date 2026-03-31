@@ -2,20 +2,37 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-const API_URL = "https://cardio-backend-1-lq31.onrender.com";
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Stack,
+  Typography
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import BuildCircleOutlinedIcon from "@mui/icons-material/BuildCircleOutlined";
+import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
+import { API_URL } from "../config/api";
 
 function CategoryDetail() {
   const { categoryName } = useParams();
   const navigate = useNavigate();
+  const decodedCategoryName = decodeURIComponent(categoryName || "");
 
   const [categoryInfo, setCategoryInfo] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getDetailData = async () => {
       try {
+        setError("");
         setLoading(true);
         const [catRes, exRes] = await Promise.all([
           axios.get(`${API_URL}/categories`),
@@ -23,75 +40,145 @@ function CategoryDetail() {
         ]);
 
         // Matches the name from the URL to the JSON data
-        const foundCat = catRes.data.find((c) => c.name === categoryName);
+        const foundCat = catRes.data.find(
+          (c) => String(c.name).toLowerCase() === decodedCategoryName.toLowerCase()
+        );
         setCategoryInfo(foundCat);
 
         // Filters list to show only exercises for this category
-        const filteredEx = exRes.data.filter((ex) => ex.category === categoryName);
+        const filteredEx = exRes.data.filter(
+          (ex) => String(ex.category).toLowerCase() === decodedCategoryName.toLowerCase()
+        );
         setExercises(filteredEx);
-      } catch (error) {
-        console.error("Error loading guide:", error);
+      } catch {
+        setError("Could not load this guide right now.");
       } finally {
         setLoading(false);
       }
     };
 
     getDetailData();
-  }, [categoryName]);
+  }, [decodedCategoryName]);
 
   if (loading) {
-    return <div className="category-detail-container">Loading {categoryName} guide...</div>;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
+        <CircularProgress color="primary" />
+      </Box>
+    );
   }
 
   if (!categoryInfo) {
     return (
-      <div className="category-detail-container">
-        <h1>Category not found</h1>
-        <Link to="/categories" className="back-link">Back to Categories</Link>
-      </div>
+      <Stack spacing={2}>
+        {error && <Alert severity="error">{error}</Alert>}
+        <Typography variant="h4">Category not found</Typography>
+        <Button component={Link} to="/categories" startIcon={<ArrowBackIcon />}>
+          Back to Categories
+        </Button>
+      </Stack>
     );
   }
 
   return (
-    <div className="category-detail-container">
-      <button onClick={() => navigate(-1)} className="back-link">
-        ← Back to Categories
-      </button>
+    <Stack spacing={3}>
+      {error && <Alert severity="error">{error}</Alert>}
 
-      <h1 className="category-title">
-        {categoryInfo.name} Guide
-      </h1>
+      <Button onClick={() => navigate(-1)} sx={{ alignSelf: "flex-start" }} startIcon={<ArrowBackIcon />}>
+        Back to Categories
+      </Button>
 
-      <div className="info-section">
-        <div className="info-box">
-          <h3>📖 About this Training</h3>
-          <p>{categoryInfo.description || "No description available yet."}</p>
-        </div>
+      <Stack direction={{ xs: "column", md: "row" }} alignItems={{ md: "center" }} spacing={2}>
+        <Typography variant="h3" component="h1">
+          {categoryInfo.name} Guide
+        </Typography>
+        <Chip label={`${exercises.length} linked exercises`} color="secondary" />
+      </Stack>
 
-        <div className="info-box">
-          <h3>⚙️ How to Perform</h3>
-          <p>{categoryInfo.howTo || "Instructions coming soon."}</p>
-        </div>
+      <Box
+        sx={{
+          display: "grid",
+          gap: 2,
+          gridTemplateColumns: {
+            xs: "1fr",
+            md: "repeat(3, minmax(0, 1fr))"
+          }
+        }}
+      >
+        <Card>
+          <CardContent>
+            <Stack spacing={1.5}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <AutoStoriesOutlinedIcon color="primary" />
+                <Typography variant="h6">About this training</Typography>
+              </Stack>
+              <Typography color="text.secondary">
+                {categoryInfo.description || "No description available yet."}
+              </Typography>
+            </Stack>
+          </CardContent>
+        </Card>
 
-        <div className="info-box">
-          <h3>💡 Benefit</h3>
-          <p>{categoryInfo.benefit || "Benefits will be updated shortly."}</p>
-        </div>
-      </div>
+        <Card>
+          <CardContent>
+            <Stack spacing={1.5}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <BuildCircleOutlinedIcon color="primary" />
+                <Typography variant="h6">How to perform</Typography>
+              </Stack>
+              <Typography color="text.secondary">{categoryInfo.howTo || "Instructions coming soon."}</Typography>
+            </Stack>
+          </CardContent>
+        </Card>
 
-      <div className="related-exercises">
-        <h2>Related Exercises in your List</h2>
-        {exercises.length > 0 ? (
-          exercises.map((ex) => (
-            <div key={ex.id} className="exercise-card">
-              <p>{ex.title} — <span>Currently at {ex.currentWeight}kg</span></p>
-            </div>
-          ))
-        ) : (
-          <p style={{ color: '#888' }}>No exercises added for this category yet.</p>
-        )}
-      </div>
-    </div>
+        <Card>
+          <CardContent>
+            <Stack spacing={1.5}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <BoltOutlinedIcon color="primary" />
+                <Typography variant="h6">Benefit</Typography>
+              </Stack>
+              <Typography color="text.secondary">
+                {categoryInfo.benefit || "Benefits will be updated shortly."}
+              </Typography>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Box>
+
+      <Card>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            Related Exercises
+          </Typography>
+
+          {exercises.length > 0 ? (
+            <Stack spacing={1.2}>
+              {exercises.map((ex) => (
+                <Stack
+                  key={ex.id}
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    py: 1.2,
+                    px: 1.5,
+                    borderRadius: 2,
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    backgroundColor: "rgba(255,255,255,0.02)"
+                  }}
+                >
+                  <Typography>{ex.title}</Typography>
+                  <Chip label={`${ex.currentWeight} kg`} size="small" color="primary" variant="outlined" />
+                </Stack>
+              ))}
+            </Stack>
+          ) : (
+            <Typography color="text.secondary">No exercises added for this category yet.</Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Stack>
   );
 }
 

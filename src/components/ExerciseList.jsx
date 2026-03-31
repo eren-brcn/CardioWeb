@@ -1,128 +1,147 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography
+} from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import SearchIcon from "@mui/icons-material/Search";
 import AddExercise from "./AddExercise";
+import { API_URL } from "../config/api";
 
-const API_URL = "https://cardio-backend-gfev.onrender.com";
-
-function ExerciseList() {
+function ExerciseList({ importedExercise }) {
   const [exercises, setExercises] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const fetchData = async () => {
+  const loadExercises = async () => {
     try {
-      const res = await axios.get(`${API_URL}/exercises`);
-      setExercises(res.data);
-    } catch (err) {
-      console.error("Error fetching exercises:", err);
-    }
-  };
-
-  // // UPDATE: This function changes the weight in the database
-  const updateWeight = async (exercise, amount) => {
-    const updatedExercise = { 
-      ...exercise, 
-      currentWeight: exercise.currentWeight + amount 
-    };
-
-    try {
-      // PUT updates an existing item in your Render backend
-      await axios.put(`${API_URL}/exercises/${exercise.id}`, updatedExercise);
-      fetchData(); // Refresh the list to show the new weight
-    } catch (err) {
-      console.error("Error updating weight:", err);
-    }
-  };
-
-  const deleteExercise = async (id) => {
-    if (window.confirm("Delete this workout?")) {
-      try {
-        await axios.delete(`${API_URL}/exercises/${id}`);
-        fetchData();
-      } catch (err) {
-        console.error("Error deleting:", err);
-      }
+      setError("");
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/exercises`);
+      const sortedExercises = [...response.data].sort((a, b) =>
+        String(a.title).localeCompare(String(b.title))
+      );
+      setExercises(sortedExercises);
+    } catch {
+      setError("Could not load exercises. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    loadExercises();
   }, []);
 
-  const filteredExercises = exercises.filter((ex) =>
-    ex.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredExercises = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    if (!normalizedQuery) {
+      return exercises;
+    }
+
+    return exercises.filter((exercise) => {
+      const title = String(exercise.title ?? "").toLowerCase();
+      const category = String(exercise.category ?? "").toLowerCase();
+      return title.includes(normalizedQuery) || category.includes(normalizedQuery);
+    });
+  }, [exercises, query]);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/exercises/${id}`);
+      setExercises((prev) => prev.filter((exercise) => exercise.id !== id));
+    } catch {
+      setError("Could not delete this exercise.");
+    }
+  };
 
   return (
-    <div style={{ padding: '20px', color: 'white' }}>
-      <AddExercise onExerciseAdded={fetchData} />
+    <Stack spacing={3}>
+      <AddExercise onExerciseAdded={loadExercises} importedExercise={importedExercise} />
 
-      <div style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Search exercises..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: '10px',
-            width: '100%',
-            maxWidth: '400px',
-            borderRadius: '5px',
-            border: '1px solid #4CAF50',
-            background: '#222',
-            color: 'white'
+      <TextField
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        label="Search exercise or category"
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon color="primary" />
+            </InputAdornment>
+          )
+        }}
+      />
+
+      {error && <Alert severity="error">{error}</Alert>}
+
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", py: 6 }}>
+          <CircularProgress color="primary" />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "grid",
+            gap: 2,
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, minmax(0, 1fr))",
+              lg: "repeat(3, minmax(0, 1fr))"
+            }
           }}
-        />
-      </div>
+        >
+          {filteredExercises.map((exercise) => (
+            <Card key={exercise.id}>
+              <CardContent>
+                <Stack direction="row" justifyContent="space-between" spacing={2}>
+                  <Box>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <FitnessCenterIcon color="primary" fontSize="small" />
+                      <Typography variant="h6">{exercise.title}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1} mt={1}>
+                      <Chip label={exercise.category} size="small" color="primary" variant="outlined" />
+                      <Chip label={`${exercise.currentWeight} kg`} size="small" color="secondary" />
+                    </Stack>
+                  </Box>
 
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
-        gap: '20px' 
-      }}>
-        {filteredExercises.map((ex) => (
-          <div key={ex.id} style={{ 
-            background: '#1a1a1a', 
-            padding: '20px', 
-            borderRadius: '12px', 
-            border: '1px solid #333',
-            position: 'relative'
-          }}>
-            <button 
-              onClick={() => deleteExercise(ex.id)}
-              style={{
-                position: 'absolute', top: '10px', right: '10px',
-                background: '#ff4444', color: 'white', border: 'none', borderRadius: '4px'
-              }}
-            >
-              X
-            </button>
+                  <Tooltip title="Delete exercise">
+                    <IconButton
+                      color="error"
+                      aria-label={`Delete ${exercise.title}`}
+                      onClick={() => handleDelete(exercise.id)}
+                    >
+                      <DeleteOutlineIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Stack>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+      )}
 
-            <h3 style={{ color: '#4CAF50', marginTop: 0 }}>{ex.title}</h3>
-            <p style={{ margin: '5px 0', opacity: 0.7 }}>{ex.category}</p>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
-              <button 
-                onClick={() => updateWeight(ex, -2.5)}
-                style={{ padding: '5px 10px', cursor: 'pointer' }}
-              >
-                -
-              </button>
-              
-              <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-                {ex.currentWeight} kg
-              </span>
-
-              <button 
-                onClick={() => updateWeight(ex, 2.5)}
-                style={{ padding: '5px 10px', cursor: 'pointer' }}
-              >
-                +
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      {!loading && filteredExercises.length === 0 && (
+        <Typography variant="body1" color="text.secondary">
+          No matching exercise found.
+        </Typography>
+      )}
+    </Stack>
   );
 }
 
