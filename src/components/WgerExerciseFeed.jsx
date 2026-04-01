@@ -17,6 +17,12 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { getWgerExercises } from "../services/wgerApi";
 import ExerciseInstructions from "./ExerciseInstructions";
 
+const getExerciseName = (exercise) => {
+  const translations = exercise.translations || [];
+  const english = translations.find((t) => t.language === 2);
+  return english?.name || translations[0]?.name || "Unnamed exercise";
+};
+
 function WgerExerciseFeed({ onImportExercise }) {
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,7 +78,7 @@ function WgerExerciseFeed({ onImportExercise }) {
         selectedCategory === "All" || exercise.category?.name === selectedCategory;
       const matchesQuery =
         !normalizedQuery ||
-        String(exercise.name || "").toLowerCase().includes(normalizedQuery);
+        getExerciseName(exercise).toLowerCase().includes(normalizedQuery);
 
       return matchesCategory && matchesQuery;
     });
@@ -174,7 +180,7 @@ function WgerExerciseFeed({ onImportExercise }) {
                   }}
                 >
                   <Typography variant="subtitle1" sx={{ fontWeight: 700, minHeight: "2.4em" }}>
-                    {exercise.name || "Unnamed exercise"}
+                    {getExerciseName(exercise)}
                   </Typography>
                   
                   <Typography variant="body2" color="text.secondary" sx={{ my: 1 }}>
@@ -209,7 +215,7 @@ function WgerExerciseFeed({ onImportExercise }) {
                       size="small"
                       variant="outlined"
                       startIcon={<SchoolOutlinedIcon />}
-                      onClick={() => handleViewInstructions(exercise.id, exercise.name)}
+                      onClick={() => handleViewInstructions(exercise.id, getExerciseName(exercise))}
                       sx={{ flex: 1 }}
                     >
                       Guide
