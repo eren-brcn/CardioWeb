@@ -16,14 +16,9 @@ export const getExerciseDetails = (exerciseId) =>
 export const getExerciseImages = (exerciseId) =>
   axios.get(`${WGER_API_URL}/exerciseimage/`, {
     params: {
-      exercise: exerciseId
+      exercise_base: exerciseId
     }
   });
 
-export const getExerciseDescriptions = (exerciseId, language = 2) =>
-  axios.get(`${WGER_API_URL}/exercisedescription/`, {
-    params: {
-      exercise: exerciseId,
-      language
-    }
-  });
+export const getExerciseDescriptions = (exerciseId) =>
+  axios.get(`${WGER_API_URL}/exerciseinfo/${exerciseId}/`);

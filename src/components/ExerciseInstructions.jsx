@@ -44,7 +44,7 @@ function ExerciseInstructions({ open, exerciseId, exerciseName, onClose }) {
         ]);
 
         setImages(imgRes.data?.results || []);
-        setDescriptions(descRes.data?.results || []);
+        setDescriptions(descRes.data?.translations || []);
       } catch {
         setError("Could not load exercise details. Please try again.");
       } finally {
@@ -190,9 +190,11 @@ function ExerciseInstructions({ open, exerciseId, exerciseName, onClose }) {
                             variant="outlined"
                             sx={{ alignSelf: "flex-start" }}
                           />
-                          <Typography sx={{ lineHeight: 1.8 }}>
-                            {desc.description}
-                          </Typography>
+                          <Typography
+                            sx={{ lineHeight: 1.8 }}
+                            component="div"
+                            dangerouslySetInnerHTML={{ __html: desc.description }}
+                          />
                         </Stack>
                       </CardContent>
                     </Card>
