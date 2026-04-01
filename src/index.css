@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@600;700&display=swap");
 
+:root {
+  --bg-0: #081018;
+  --bg-1: #0e1a24;
+  --ink: #ecf7ff;
+  --muted: #9db1be;
+  --teal: #14d6b6;
+  --orange: #ff9f52;
+  --outline: rgba(173, 229, 255, 0.16);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,4 +19,53 @@ body,
 #root {
   margin: 0;
   min-height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 8% 10%, rgba(20, 214, 182, 0.13), transparent 30%),
+    radial-gradient(circle at 90% 12%, rgba(255, 159, 82, 0.13), transparent 24%),
+    radial-gradient(circle at 80% 84%, rgba(67, 170, 255, 0.12), transparent 34%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--teal);
+}
+
+/* Polished, subtle scrollbar visuals */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(20, 214, 182, 0.7), rgba(67, 170, 255, 0.65));
+  border-radius: 999px;
+}
+
+/* Gentle reveal for route content */
+@keyframes fadeInLift {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: fadeInLift 360ms ease;
 }

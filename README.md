@@ -1,32 +1,63 @@
-# ⚡ CardioWeb - Modern Fitness Tracking App
+# CardioWeb Frontend
 
-*CardioWeb* is a high-performance fitness dashboard built with React. It helps users track their gym progress and access detailed training guides for specific muscle groups. The app features a professional "Midnight Neon" dark-mode aesthetic.
+CardioWeb is a multilingual fitness tracking frontend built with React and Vite. It provides workout tracking, user profile analytics, training guides, and personal program management.
 
-## 🚀 Live Demo
-* *Frontend:* [https://cardioweb.onrender.com](https://cardioweb.onrender.com)
-* *Backend API:* [https://cardio-backend-1-lq31.onrender.com](https://cardio-backend-1-lq31.onrender.com)
+## Live
+- Frontend: https://cardio-web.vercel.app
+- Backend API: https://cardio-backend-1-lq31.onrender.com
 
----
+## Features
+- Authentication: signup/login with JWT session handling
+- Workout management: add, list, search, and delete exercises
+- Profile analytics: progress charts (bar and line) based on personal workout history
+- Program center: create and manage personal workout programs
+- Training guides: category detail pages plus WGER exercise library integration
+- Legal/support pages: privacy, support, and terms
+- Internationalization: English, Turkish, German, French, Spanish
 
-## ✨ Features
-* *Workout Management:* Log exercises, weight (kg), and muscle groups instantly.
-* *Smart Filtering:* Search through your exercise history with a real-time search bar.
-* *Deep-Dive Guides:* Dedicated pages for Chest, Back, Legs, and Cardio with "About," "How-to," and "Benefit" sections.
-* *Persistent Data:* Connected to a custom JSON-Server backend hosted on Render.
-* *Responsive Design:* Fully styled with a custom CSS framework for a premium look.
+## Tech Stack
+- React 19 + Vite 6
+- Material UI 7
+- React Router
+- Axios
+- Recharts
+- i18next + react-i18next
 
----
+## Environment Variables
+Create an .env.local file with:
 
-## 🛠️ Tech Stack
-* *Frontend:* React (Vite), React Router, Axios
-* *Backend:* JSON-Server (deployed as a separate Web Service)
-* *Styling:* CSS3 with Global Theme Variables
-* *Hosting:* Render
+```env
+VITE_API_URL=https://cardio-backend-1-lq31.onrender.com
+VITE_WGER_API_URL=https://wger.de/api/v2
+```
 
----
+## Run Locally
+Install dependencies and start dev server:
 
-## 🏗️ How to Install
+```bash
+npm install
+npm run dev
+```
 
-1. *Clone the project:*
-   ```bash
-   git clone [https://github.com/your-username/CardioWeb.git](https://github.com/your-username/CardioWeb.git)
+Build for production:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Main Routes
+- / (dashboard)
+- /profile
+- /categories
+- /categories/:categoryName
+- /login
+- /signup
+- /privacy
+- /support
+- /terms
+
+## Notes
+- All user-facing pages use route-based protection where required.
+- Language preference is persisted in localStorage.
+- The frontend expects the backend to expose /auth, /users, /programs, /exercises, /categories, and /health endpoints.
