@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "trainingGuides": "Guides d'entrainement",
+    "login": "Connexion",
+    "signup": "Inscription",
+    "logout": "Deconnexion",
+    "language": "Langue"
+  },
+  "footer": {
+    "tagline": "Continue tes entrainements avec regularite.",
+    "privacy": "Confidentialite",
+    "support": "Support",
+    "terms": "Conditions"
+  },
+  "dashboard": {
+    "title": "Entraine-toi Plus Intelligemment, Pas Seulement Plus Dur",
+    "subtitle": "Enregistre chaque serie, suis ta progression et aligne chaque seance sur tes objectifs."
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "loginTitle": "Bon retour",
+    "loginSubtitle": "Connecte-toi pour continuer a suivre tes entrainements et ta progression.",
+    "loginSuccess": "Connexion reussie. Redirection...",
+    "loginFailed": "Echec de connexion. Veuillez reessayer.",
+    "loggingIn": "Connexion en cours...",
+    "newHere": "Nouveau ici ?",
+    "createAccount": "Creer un compte",
+    "signupTitle": "Creer un compte",
+    "signupSubtitle": "Inscris-toi pour enregistrer des exercices, suivre des categories et construire ton historique.",
+    "fullName": "Nom complet",
+    "confirmPassword": "Confirmer le mot de passe",
+    "creatingAccount": "Creation du compte...",
+    "alreadyHaveAccount": "Tu as deja un compte ?",
+    "signupFailed": "Echec de l'inscription. Veuillez reessayer.",
+    "signupSuccess": "Compte cree. Redirection...",
+    "fillAllFields": "Veuillez remplir tous les champs.",
+    "passwordMin": "Le mot de passe doit contenir au moins 6 caracteres.",
+    "passwordsMismatch": "Les mots de passe ne correspondent pas.",
+    "enterEmailPassword": "Veuillez saisir l'e-mail et le mot de passe."
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "subtitle": "Suis ta progression et analyse la tendance de tes performances.",
+    "workouts": "Seances",
+    "totalImprovement": "Amelioration totale",
+    "improvementByExercise": "Amelioration par exercice",
+    "firstVsLatest": "Premier vs dernier poids",
+    "noChart": "Pas encore de donnees de graphique. Ajoute des seances pour voir la progression.",
+    "noLine": "Aucune donnee de courbe disponible pour le moment.",
+    "loadError": "Impossible de charger ton profil de progression pour le moment."
+  },
+  "privacy": {
+    "title": "Politique de confidentialite",
+    "p1": "CardioWeb stocke les informations de compte et d'entrainement pour suivre la progression et ameliorer l'experience.",
+    "p2": "Nous ne vendons pas tes donnees personnelles. Les donnees servent uniquement aux fonctionnalites et a la securite.",
+    "p3": "Si tu veux supprimer les donnees de ton compte, contacte le support avec ton e-mail."
+  },
+  "support": {
+    "title": "Support",
+    "p1": "Besoin d'aide pour la connexion, la progression ou les donnees d'entrainement ? Contacte-nous.",
+    "contact": "E-mail de contact",
+    "p3": "Lors d'un signalement, ajoute une courte description et des captures d'ecran si possible."
+  },
+  "terms": {
+    "title": "Conditions d'utilisation",
+    "p1": "CardioWeb est fourni a des fins educatives et de suivi fitness. Ce n'est pas un service medical.",
+    "p2": "Tu es responsable d'utiliser les entrainements en toute securite et selon tes limites physiques.",
+    "p3": "En utilisant l'application, tu acceptes ces conditions et notre politique de confidentialite."
+  },
+  "languages": {
+    "en": "Anglais",
+    "tr": "Turc",
+    "de": "Allemand",
+    "fr": "Francais",
+    "es": "Espagnol"
+  }
+}

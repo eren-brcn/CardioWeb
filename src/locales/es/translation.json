@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "trainingGuides": "Guias de entrenamiento",
+    "login": "Iniciar sesion",
+    "signup": "Registrarse",
+    "logout": "Cerrar sesion",
+    "language": "Idioma"
+  },
+  "footer": {
+    "tagline": "Sigue entrenando con constancia.",
+    "privacy": "Privacidad",
+    "support": "Soporte",
+    "terms": "Terminos"
+  },
+  "dashboard": {
+    "title": "Entrena de Forma Inteligente, No Solo Mas Duro",
+    "subtitle": "Registra cada serie, sigue tu progreso y alinea cada entrenamiento con tus objetivos."
+  },
+  "auth": {
+    "email": "Correo",
+    "password": "Contrasena",
+    "loginTitle": "Bienvenido de nuevo",
+    "loginSubtitle": "Inicia sesion para seguir tus entrenamientos y progreso.",
+    "loginSuccess": "Inicio de sesion exitoso. Redirigiendo...",
+    "loginFailed": "Fallo de inicio de sesion. Intentalo de nuevo.",
+    "loggingIn": "Iniciando sesion...",
+    "newHere": "Nuevo aqui?",
+    "createAccount": "Crear una cuenta",
+    "signupTitle": "Crear cuenta",
+    "signupSubtitle": "Registrate para guardar ejercicios, seguir categorias y construir tu historial.",
+    "fullName": "Nombre completo",
+    "confirmPassword": "Confirmar contrasena",
+    "creatingAccount": "Creando cuenta...",
+    "alreadyHaveAccount": "Ya tienes cuenta?",
+    "signupFailed": "Registro fallido. Intentalo de nuevo.",
+    "signupSuccess": "Cuenta creada. Redirigiendo...",
+    "fillAllFields": "Completa todos los campos.",
+    "passwordMin": "La contrasena debe tener al menos 6 caracteres.",
+    "passwordsMismatch": "Las contrasenas no coinciden.",
+    "enterEmailPassword": "Ingresa correo y contrasena."
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "subtitle": "Sigue tu progreso y analiza la tendencia de rendimiento.",
+    "workouts": "Entrenamientos",
+    "totalImprovement": "Mejora total",
+    "improvementByExercise": "Mejora por ejercicio",
+    "firstVsLatest": "Primer vs ultimo peso",
+    "noChart": "Aun no hay datos de grafico. Agrega entrenamientos para ver progreso.",
+    "noLine": "No hay datos de linea disponibles todavia.",
+    "loadError": "No se pudo cargar tu perfil de progreso en este momento."
+  },
+  "privacy": {
+    "title": "Politica de privacidad",
+    "p1": "CardioWeb guarda tu cuenta y datos de entrenamiento para seguir progreso y mejorar la experiencia.",
+    "p2": "No vendemos tus datos personales. Se usan solo para funciones clave y seguridad.",
+    "p3": "Si quieres eliminar los datos de tu cuenta, contacta soporte e incluye tu correo."
+  },
+  "support": {
+    "title": "Soporte",
+    "p1": "Necesitas ayuda con inicio de sesion, progreso o datos de entrenamiento? Contactanos.",
+    "contact": "Correo de contacto",
+    "p3": "Al reportar un problema, incluye una descripcion breve y capturas si es posible."
+  },
+  "terms": {
+    "title": "Terminos del servicio",
+    "p1": "CardioWeb se ofrece para educacion y seguimiento fitness. No es un servicio medico.",
+    "p2": "Eres responsable de entrenar de forma segura y dentro de tus limites fisicos.",
+    "p3": "Al usar la app, aceptas estos terminos y nuestra politica de privacidad."
+  },
+  "languages": {
+    "en": "Ingles",
+    "tr": "Turco",
+    "de": "Aleman",
+    "fr": "Frances",
+    "es": "Espanol"
+  }
+}

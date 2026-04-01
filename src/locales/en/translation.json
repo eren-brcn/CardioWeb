@@ -1,0 +1,154 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "trainingGuides": "Training Guides",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "language": "Language"
+  },
+  "footer": {
+    "tagline": "Keep training with consistency.",
+    "privacy": "Privacy",
+    "support": "Support",
+    "terms": "Terms"
+  },
+  "dashboard": {
+    "title": "Train Smarter, Not Just Harder",
+    "subtitle": "Log every set, monitor progress, and keep each workout aligned with your category goals."
+  },
+  "exercise": {
+    "addTitle": "Add New Workout",
+    "name": "Exercise name",
+    "weight": "Weight (kg)",
+    "category": "Category",
+    "addButton": "Add Exercise",
+    "addError": "Could not add exercise. Please check the API and try again.",
+    "search": "Search exercise or category",
+    "delete": "Delete exercise",
+    "deleteError": "Could not delete this exercise.",
+    "loadError": "Could not load exercises. Please try again.",
+    "noMatch": "No matching exercise found."
+  },
+  "wger": {
+    "title": "WGER Exercise Feed",
+    "liveApi": "Live API",
+    "search": "Search WGER exercises",
+    "filterCategory": "Filter category",
+    "category": "Category",
+    "general": "General",
+    "equipment": "Equipment",
+    "muscle": "Muscle",
+    "guide": "Guide",
+    "import": "Import",
+    "loadError": "Could not load exercises from WGER API.",
+    "loadMoreError": "Could not load more exercises right now.",
+    "loadMore": "Load more",
+    "loading": "Loading...",
+    "noMatch": "No WGER exercises match your search."
+  },
+  "categories": {
+    "title": "Training Guides",
+    "subtitle": "Choose a category to get practical tips and guidance before your next session.",
+    "open": "Open",
+    "loadError": "Unable to load categories at the moment.",
+    "exploreFallback": "Explore the {{category}} training guide."
+  },
+  "categoryDetail": {
+    "loadError": "Could not load this guide right now.",
+    "notFound": "Category not found",
+    "back": "Back to Categories",
+    "guide": "Guide",
+    "linked": "{{count}} linked exercises",
+    "about": "About this training",
+    "descriptionFallback": "No description available yet. This category helps you understand the fundamentals and importance of this exercise type in your fitness journey.",
+    "howTo": "How to perform",
+    "howToFallback": "Step-by-step instructions coming soon. Learn proper form and technique to maximize results safely.",
+    "benefit": "Benefit",
+    "benefitFallback": "Discover the health and fitness benefits of this exercise. Includes muscle development, endurance, and overall wellness improvements.",
+    "myExercises": "My Exercises ({{count}})",
+    "wgerLibrary": "WGER Library ({{count}})",
+    "addedToWorkouts": "Added to your workouts",
+    "noLocalExercises": "No exercises added for this category yet.",
+    "noWgerExercises": "No exercises from WGER library found for this category."
+  },
+  "programs": {
+    "title": "My Programs",
+    "subtitle": "Create your own training program and track improvement from your logged workouts.",
+    "name": "Program name",
+    "description": "Description",
+    "duration": "Duration (weeks)",
+    "difficulty": "Difficulty",
+    "create": "Create Program",
+    "creating": "Creating...",
+    "library": "My Program Library",
+    "empty": "You have not created a program yet.",
+    "progressInsights": "Progress Insights",
+    "totalImprovement": "Total improvement",
+    "sessions": "Sessions",
+    "noChart": "Add workouts to see your progress chart here.",
+    "loadError": "Could not load your program or progress data.",
+    "createError": "Could not create your program right now.",
+    "deleteError": "Could not delete this program."
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Log in to continue tracking your workouts and progress.",
+    "loginSuccess": "Login successful. Redirecting...",
+    "loginFailed": "Login failed. Please try again.",
+    "loggingIn": "Logging in...",
+    "newHere": "New here?",
+    "createAccount": "Create an account",
+    "signupTitle": "Create Account",
+    "signupSubtitle": "Sign up to save exercises, track categories, and build your training history.",
+    "fullName": "Full Name",
+    "confirmPassword": "Confirm Password",
+    "creatingAccount": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signupFailed": "Sign up failed. Please try again.",
+    "signupSuccess": "Account created. Redirecting...",
+    "fillAllFields": "Please fill out all fields.",
+    "passwordMin": "Password must be at least 6 characters.",
+    "passwordsMismatch": "Passwords do not match.",
+    "enterEmailPassword": "Please enter both email and password."
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Track your workout progress and analyze your performance trend.",
+    "workouts": "Workouts",
+    "totalImprovement": "Total Improvement",
+    "improvementByExercise": "Improvement by Exercise",
+    "firstVsLatest": "First vs Latest Weight",
+    "noChart": "No chart data yet. Add workouts to see progress.",
+    "noLine": "No line chart data available yet.",
+    "loadError": "Could not load your progress profile right now."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "p1": "CardioWeb stores your account and workout information to provide progress tracking, personalized recommendations, and a better training experience.",
+    "p2": "We do not sell your personal data. Data is processed only for core app features and platform security.",
+    "p3": "If you want your account data removed, contact support and include your account email."
+  },
+  "support": {
+    "title": "Support",
+    "p1": "Need help with login, progress, or workout data? Reach out and we will respond as soon as possible.",
+    "contact": "Contact email",
+    "p3": "When reporting an issue, include a short description and screenshots if possible."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "p1": "CardioWeb is provided for educational and fitness-tracking use. It is not a medical service.",
+    "p2": "You are responsible for using workouts safely and within your physical limits.",
+    "p3": "By using the app, you agree to these terms and to our privacy policy."
+  },
+  "languages": {
+    "en": "English",
+    "tr": "Turkish",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish"
+  }
+}

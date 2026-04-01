@@ -1,32 +1,38 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, MenuItem, TextField, Toolbar, Typography } from "@mui/material";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { NavLink, useNavigate } from "react-router-dom";
-import { clearAuthSession, getAuthUser, hasAuthSession } from "../services/authStorage";
-
-const privateLinks = [
-	{ to: "/", label: "Dashboard", icon: <DashboardOutlinedIcon fontSize="small" /> },
-	{ to: "/categories", label: "Training Guides", icon: <MenuBookOutlinedIcon fontSize="small" /> }
-];
-
-const publicLinks = [
-	{ to: "/login", label: "Login", icon: <LoginOutlinedIcon fontSize="small" /> },
-	{ to: "/signup", label: "Sign Up", icon: <PersonAddAltOutlinedIcon fontSize="small" /> }
-];
+import { clearAuthSession, hasAuthSession } from "../services/authStorage";
+import { useTranslation } from "react-i18next";
 
 function Navbar() {
 	const navigate = useNavigate();
 	const isAuthenticated = hasAuthSession();
-	const authUser = getAuthUser();
+	const { t, i18n } = useTranslation();
+
+	const privateLinks = [
+		{ to: "/", label: t("nav.dashboard"), icon: <DashboardOutlinedIcon fontSize="small" /> },
+		{ to: "/profile", label: t("nav.profile"), icon: <PersonOutlineOutlinedIcon fontSize="small" /> },
+		{ to: "/categories", label: t("nav.trainingGuides"), icon: <MenuBookOutlinedIcon fontSize="small" /> }
+	];
+
+	const publicLinks = [
+		{ to: "/login", label: t("nav.login"), icon: <LoginOutlinedIcon fontSize="small" /> },
+		{ to: "/signup", label: t("nav.signup"), icon: <PersonAddAltOutlinedIcon fontSize="small" /> }
+	];
 
 	const handleLogout = () => {
 		clearAuthSession();
 		navigate("/login", { replace: true });
+	};
+
+	const handleLanguageChange = (event) => {
+		i18n.changeLanguage(event.target.value);
 	};
 
 	return (
@@ -48,6 +54,21 @@ function Navbar() {
 				</Box>
 
 				<Box sx={{ display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
+					<TextField
+						select
+						size="small"
+						label={t("nav.language")}
+						value={i18n.resolvedLanguage || "en"}
+						onChange={handleLanguageChange}
+						sx={{ minWidth: 130 }}
+					>
+						<MenuItem value="en">{t("languages.en")}</MenuItem>
+						<MenuItem value="tr">{t("languages.tr")}</MenuItem>
+						<MenuItem value="de">{t("languages.de")}</MenuItem>
+						<MenuItem value="fr">{t("languages.fr")}</MenuItem>
+						<MenuItem value="es">{t("languages.es")}</MenuItem>
+					</TextField>
+
 					{(isAuthenticated ? privateLinks : publicLinks).map((link) => (
 						<Button
 							key={link.to}
@@ -68,30 +89,8 @@ function Navbar() {
 						</Button>
 					))}
 
-					{isAuthenticated && authUser?.role === "admin" && (
-						<Button
-							component={NavLink}
-							to="/admin"
-							startIcon={<SettingsOutlinedIcon fontSize="small" />}
-							sx={{
-								color: "text.secondary",
-								borderRadius: 99,
-								px: 1.7,
-								"&.active": {
-									color: "primary.main",
-									backgroundColor: "rgba(0,194,168,0.13)"
-								}
-							}}
-						>
-							Admin
-						</Button>
-					)}
-
 					{isAuthenticated && (
 						<>
-							<Typography variant="body2" color="text.secondary" sx={{ px: 0.5 }}>
-								{authUser?.name || authUser?.email || "Signed in"}
-							</Typography>
 							<Button
 								onClick={handleLogout}
 								startIcon={<LogoutOutlinedIcon fontSize="small" />}
@@ -101,7 +100,7 @@ function Navbar() {
 									px: 1.7
 								}}
 							>
-								Logout
+								{t("nav.logout")}
 							</Button>
 						</>
 					)}

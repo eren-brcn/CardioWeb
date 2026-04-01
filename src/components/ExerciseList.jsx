@@ -18,8 +18,10 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SearchIcon from "@mui/icons-material/Search";
 import AddExercise from "./AddExercise";
 import { deleteExercise, getExercises } from "../services/backendApi";
+import { useTranslation } from "react-i18next";
 
 function ExerciseList({ importedExercise }) {
+  const { t } = useTranslation();
   const [exercises, setExercises] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ function ExerciseList({ importedExercise }) {
       );
       setExercises(sortedExercises);
     } catch {
-      setError("Could not load exercises. Please try again.");
+      setError(t("exercise.loadError"));
     } finally {
       setLoading(false);
     }
@@ -64,7 +66,7 @@ function ExerciseList({ importedExercise }) {
       await deleteExercise(id);
       setExercises((prev) => prev.filter((exercise) => exercise.id !== id));
     } catch {
-      setError("Could not delete this exercise.");
+      setError(t("exercise.deleteError"));
     }
   };
 
@@ -75,7 +77,7 @@ function ExerciseList({ importedExercise }) {
       <TextField
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        label="Search exercise or category"
+        label={t("exercise.search")}
         fullWidth
         InputProps={{
           startAdornment: (
@@ -119,7 +121,7 @@ function ExerciseList({ importedExercise }) {
                     </Stack>
                   </Box>
 
-                  <Tooltip title="Delete exercise">
+                  <Tooltip title={t("exercise.delete")}> 
                     <IconButton
                       color="error"
                       aria-label={`Delete ${exercise.title}`}
@@ -137,7 +139,7 @@ function ExerciseList({ importedExercise }) {
 
       {!loading && filteredExercises.length === 0 && (
         <Typography variant="body1" color="text.secondary">
-          No matching exercise found.
+          {t("exercise.noMatch")}
         </Typography>
       )}
     </Stack>

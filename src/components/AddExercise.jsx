@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { addExercise } from "../services/backendApi";
+import { useTranslation } from "react-i18next";
 
 const baseCategories = ["Chest", "Back", "Legs", "Cardio", "Yoga"];
 
@@ -37,7 +38,14 @@ const mapWgerCategoryToLocal = (categoryName) => {
   return "Cardio";
 };
 
+const getImportedName = (exercise) => {
+  const translations = exercise?.translations || [];
+  const english = translations.find((t) => t.language === 2);
+  return english?.name || translations[0]?.name || "";
+};
+
 function AddExercise({ onExerciseAdded, importedExercise }) {
+  const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Chest");
   const [weight, setWeight] = useState("");
@@ -56,7 +64,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
       return;
     }
 
-    setTitle(importedExercise.name || "");
+    setTitle(getImportedName(importedExercise));
     setCategory(mapWgerCategoryToLocal(importedExercise.category?.name));
 
     setWeight((prev) => prev || "20");
@@ -84,7 +92,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
       // Trigger the refresh in the parent component
       onExerciseAdded(); 
     } catch {
-      setError("Could not add exercise. Please check the API and try again.");
+      setError(t("exercise.addError"));
     }
   };
 
@@ -93,18 +101,18 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
       <CardContent>
         <Box component="form" onSubmit={handleSubmit}>
           <Stack spacing={2.5}>
-            <Typography variant="h5">Add New Workout</Typography>
+            <Typography variant="h5">{t("exercise.addTitle")}</Typography>
 
             <Stack direction={{ xs: "column", md: "row" }} spacing={1.5}>
               <TextField
-                label="Exercise name"
+                label={t("exercise.name")}
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
                 fullWidth
                 required
               />
               <TextField
-                label="Weight (kg)"
+                label={t("exercise.weight")}
                 type="number"
                 value={weight}
                 onChange={(event) => setWeight(event.target.value)}
@@ -113,7 +121,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
               />
               <TextField
                 select
-                label="Category"
+                label={t("exercise.category")}
                 value={category}
                 onChange={(event) => setCategory(event.target.value)}
                 sx={{ minWidth: { md: 180 } }}
@@ -130,7 +138,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
 
             <Box>
               <Button type="submit" variant="contained" startIcon={<AddCircleOutlineIcon />}>
-                Add Exercise
+                {t("exercise.addButton")}
               </Button>
             </Box>
           </Stack>

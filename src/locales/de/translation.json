@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "profile": "Profil",
+    "trainingGuides": "Trainingsanleitungen",
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden",
+    "language": "Sprache"
+  },
+  "footer": {
+    "tagline": "Bleib konsequent beim Training.",
+    "privacy": "Datenschutz",
+    "support": "Support",
+    "terms": "Bedingungen"
+  },
+  "dashboard": {
+    "title": "Trainiere Smarter, Nicht Nur Harter",
+    "subtitle": "Protokolliere jeden Satz, verfolge deinen Fortschritt und halte jedes Workout auf deine Ziele ausgerichtet."
+  },
+  "auth": {
+    "email": "E-Mail",
+    "password": "Passwort",
+    "loginTitle": "Willkommen zuruck",
+    "loginSubtitle": "Melde dich an, um deine Workouts und Fortschritte weiter zu verfolgen.",
+    "loginSuccess": "Anmeldung erfolgreich. Weiterleitung...",
+    "loginFailed": "Anmeldung fehlgeschlagen. Bitte erneut versuchen.",
+    "loggingIn": "Anmeldung lauft...",
+    "newHere": "Neu hier?",
+    "createAccount": "Konto erstellen",
+    "signupTitle": "Konto erstellen",
+    "signupSubtitle": "Registriere dich, um Ubungen zu speichern, Kategorien zu verfolgen und deine Trainingshistorie aufzubauen.",
+    "fullName": "Vollstandiger Name",
+    "confirmPassword": "Passwort bestatigen",
+    "creatingAccount": "Konto wird erstellt...",
+    "alreadyHaveAccount": "Hast du bereits ein Konto?",
+    "signupFailed": "Registrierung fehlgeschlagen. Bitte erneut versuchen.",
+    "signupSuccess": "Konto erstellt. Weiterleitung...",
+    "fillAllFields": "Bitte alle Felder ausfullen.",
+    "passwordMin": "Das Passwort muss mindestens 6 Zeichen haben.",
+    "passwordsMismatch": "Passworter stimmen nicht uberein.",
+    "enterEmailPassword": "Bitte E-Mail und Passwort eingeben."
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "subtitle": "Verfolge deinen Trainingsfortschritt und analysiere deinen Leistungstrend.",
+    "workouts": "Workouts",
+    "totalImprovement": "Gesamtverbesserung",
+    "improvementByExercise": "Verbesserung nach Ubung",
+    "firstVsLatest": "Erstes vs letztes Gewicht",
+    "noChart": "Noch keine Diagrammdaten. Fuge Workouts hinzu, um Fortschritt zu sehen.",
+    "noLine": "Noch keine Liniendiagramm-Daten verfugbar.",
+    "loadError": "Dein Profilfortschritt konnte derzeit nicht geladen werden."
+  },
+  "privacy": {
+    "title": "Datenschutzerklarung",
+    "p1": "CardioWeb speichert Konto- und Workout-Informationen, um Fortschritte zu verfolgen, personalisierte Empfehlungen zu geben und dein Training zu verbessern.",
+    "p2": "Wir verkaufen keine personenbezogenen Daten. Daten werden nur fur Kernfunktionen und Sicherheit verarbeitet.",
+    "p3": "Wenn du deine Kontodaten loschen mochtest, kontaktiere den Support mit deiner Konto-E-Mail."
+  },
+  "support": {
+    "title": "Support",
+    "p1": "Brauchst du Hilfe bei Anmeldung, Fortschritt oder Workout-Daten? Kontaktiere uns gern.",
+    "contact": "Kontakt-E-Mail",
+    "p3": "Bitte gib bei Problemen eine kurze Beschreibung und wenn moglich Screenshots an."
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "p1": "CardioWeb ist fur Bildung und Fitness-Tracking gedacht und kein medizinischer Dienst.",
+    "p2": "Du bist selbst fur ein sicheres Training innerhalb deiner korperlichen Grenzen verantwortlich.",
+    "p3": "Durch die Nutzung der App stimmst du diesen Bedingungen und der Datenschutzerklarung zu."
+  },
+  "languages": {
+    "en": "Englisch",
+    "tr": "Turkisch",
+    "de": "Deutsch",
+    "fr": "Franzosisch",
+    "es": "Spanisch"
+  }
+}

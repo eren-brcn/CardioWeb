@@ -11,7 +11,10 @@ const CategoriesPage = lazy(() => import('./Pages/CategoriesPage.jsx'));
 const CategoryDetail = lazy(() => import('./Pages/CategoryDetail.jsx'));
 const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'));
 const SignupPage = lazy(() => import('./Pages/SignupPage.jsx'));
-const AdminDashboard = lazy(() => import('./Pages/AdminDashboard.jsx'));
+const ProfilePage = lazy(() => import('./Pages/ProfilePage.jsx'));
+const PrivacyPage = lazy(() => import('./Pages/PrivacyPage.jsx'));
+const SupportPage = lazy(() => import('./Pages/SupportPage.jsx'));
+const TermsPage = lazy(() => import('./Pages/TermsPage.jsx'));
 
 function PublicOnlyRoute({ children }) {
   return hasAuthSession() ? <Navigate to="/" replace /> : children;
@@ -35,11 +38,14 @@ function App() {
           <Suspense fallback={<Box sx={{ py: 6, textAlign: 'center' }}>Loading...</Box>}>
             <Routes>
               <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/categories" element={<ProtectedRoute><CategoriesPage /></ProtectedRoute>} />
               <Route path="/categories/:categoryName" element={<ProtectedRoute><CategoryDetail /></ProtectedRoute>} />
-              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
               <Route path="/signup" element={<PublicOnlyRoute><SignupPage /></PublicOnlyRoute>} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/support" element={<SupportPage />} />
+              <Route path="/terms" element={<TermsPage />} />
             </Routes>
           </Suspense>
         </Container>

@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "dashboard": "Panel",
+    "profile": "Profil",
+    "trainingGuides": "Antrenman Rehberleri",
+    "login": "Giris",
+    "signup": "Kayit Ol",
+    "logout": "Cikis",
+    "language": "Dil"
+  },
+  "footer": {
+    "tagline": "Antrenmanda istikrarini koru.",
+    "privacy": "Gizlilik",
+    "support": "Destek",
+    "terms": "Kosullar"
+  },
+  "dashboard": {
+    "title": "Sadece Daha Sert Degil, Daha Akilli Antrenman",
+    "subtitle": "Her seti kaydet, gelisimini izle ve her antrenmani hedef kategorinle uyumlu tut."
+  },
+  "auth": {
+    "email": "E-posta",
+    "password": "Sifre",
+    "loginTitle": "Tekrar Hos Geldin",
+    "loginSubtitle": "Antrenmanlarini ve gelisimini takip etmeye devam etmek icin giris yap.",
+    "loginSuccess": "Giris basarili. Yonlendiriliyor...",
+    "loginFailed": "Giris basarisiz. Lutfen tekrar dene.",
+    "loggingIn": "Giris yapiliyor...",
+    "newHere": "Yeni misin?",
+    "createAccount": "Hesap olustur",
+    "signupTitle": "Hesap Olustur",
+    "signupSubtitle": "Egzersizleri kaydetmek, kategorileri takip etmek ve antrenman gecmisini olusturmak icin kaydol.",
+    "fullName": "Ad Soyad",
+    "confirmPassword": "Sifreyi Onayla",
+    "creatingAccount": "Hesap olusturuluyor...",
+    "alreadyHaveAccount": "Zaten hesabin var mi?",
+    "signupFailed": "Kayit basarisiz. Lutfen tekrar dene.",
+    "signupSuccess": "Hesap olusturuldu. Yonlendiriliyor...",
+    "fillAllFields": "Lutfen tum alanlari doldur.",
+    "passwordMin": "Sifre en az 6 karakter olmali.",
+    "passwordsMismatch": "Sifreler eslesmiyor.",
+    "enterEmailPassword": "Lutfen e-posta ve sifreyi gir."
+  },
+  "profile": {
+    "title": "Profilim",
+    "subtitle": "Antrenman gelisimini takip et ve performans trendini analiz et.",
+    "workouts": "Antrenman",
+    "totalImprovement": "Toplam Gelisim",
+    "improvementByExercise": "Egzersize Gore Gelisim",
+    "firstVsLatest": "Ilk ve Son Agirlik",
+    "noChart": "Henuz grafik verisi yok. Gelisimi gormek icin antrenman ekle.",
+    "noLine": "Henuz cizgi grafik verisi yok.",
+    "loadError": "Profil gelisimi su anda yuklenemedi."
+  },
+  "privacy": {
+    "title": "Gizlilik Politikasi",
+    "p1": "CardioWeb, gelisim takibi, kisisellestirilmis oneriler ve daha iyi bir antrenman deneyimi sunmak icin hesap ve antrenman bilgilerini saklar.",
+    "p2": "Kisisel verilerini satmiyoruz. Veriler sadece temel uygulama ozellikleri ve platform guvenligi icin islenir.",
+    "p3": "Hesap verilerini sildirmek istersen destek iletisime gec ve hesap e-postani ekle."
+  },
+  "support": {
+    "title": "Destek",
+    "p1": "Giris, gelisim veya antrenman verileri konusunda yardima mi ihtiyacin var? Bizimle iletisime gec.",
+    "contact": "Iletisim e-postasi",
+    "p3": "Sorun bildirirken kisa bir aciklama ve mumkunse ekran goruntusu ekle."
+  },
+  "terms": {
+    "title": "Kullanim Kosullari",
+    "p1": "CardioWeb egitim ve fitness takip amacli sunulur. Tibbi bir hizmet degildir.",
+    "p2": "Antrenmanlari guvenli sekilde ve fiziksel sinirlarin dahilinde uygulamaktan sen sorumlusun.",
+    "p3": "Uygulamayi kullanarak bu kosullari ve gizlilik politikasini kabul etmis olursun."
+  },
+  "languages": {
+    "en": "Ingilizce",
+    "tr": "Turkce",
+    "de": "Almanca",
+    "fr": "Fransizca",
+    "es": "Ispanyolca"
+  }
+}

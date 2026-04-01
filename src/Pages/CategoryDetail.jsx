@@ -24,8 +24,16 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { getCategories, getExercises } from "../services/backendApi";
 import { getWgerExercises } from "../services/wgerApi";
 import ExerciseInstructions from "../components/ExerciseInstructions";
+import { useTranslation } from "react-i18next";
+
+const getExerciseName = (exercise) => {
+  const translations = exercise?.translations || [];
+  const english = translations.find((t) => t.language === 2);
+  return english?.name || translations[0]?.name || "Unnamed exercise";
+};
 
 function CategoryDetail() {
+  const { t } = useTranslation();
   const { categoryName } = useParams();
   const navigate = useNavigate();
   const decodedCategoryName = decodeURIComponent(categoryName || "");
@@ -70,14 +78,14 @@ function CategoryDetail() {
         );
         setWgerExercises(wgerFiltered);
       } catch {
-        setError("Could not load this guide right now.");
+        setError(t("categoryDetail.loadError"));
       } finally {
         setLoading(false);
       }
     };
 
     getDetailData();
-  }, [decodedCategoryName]);
+  }, [decodedCategoryName, t]);
 
   if (loading) {
     return (
@@ -91,9 +99,9 @@ function CategoryDetail() {
     return (
       <Stack spacing={2}>
         {error && <Alert severity="error">{error}</Alert>}
-        <Typography variant="h4">Category not found</Typography>
+        <Typography variant="h4">{t("categoryDetail.notFound")}</Typography>
         <Button component={Link} to="/categories" startIcon={<ArrowBackIcon />}>
-          Back to Categories
+          {t("categoryDetail.back")}
         </Button>
       </Stack>
     );
@@ -104,14 +112,14 @@ function CategoryDetail() {
       {error && <Alert severity="error">{error}</Alert>}
 
       <Button onClick={() => navigate(-1)} sx={{ alignSelf: "flex-start" }} startIcon={<ArrowBackIcon />}>
-        Back to Categories
+        {t("categoryDetail.back")}
       </Button>
 
       <Stack direction={{ xs: "column", md: "row" }} alignItems={{ md: "center" }} spacing={2}>
         <Typography variant="h3" component="h1">
-          {categoryInfo.name} Guide
+          {categoryInfo.name} {t("categoryDetail.guide")}
         </Typography>
-        <Chip label={`${exercises.length} linked exercises`} color="secondary" />
+        <Chip label={t("categoryDetail.linked", { count: exercises.length })} color="secondary" />
       </Stack>
 
       <Box
@@ -129,10 +137,10 @@ function CategoryDetail() {
             <Stack spacing={1.5}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <AutoStoriesOutlinedIcon color="primary" />
-                <Typography variant="h6">About this training</Typography>
+                <Typography variant="h6">{t("categoryDetail.about")}</Typography>
               </Stack>
               <Typography color="text.secondary" sx={{ minHeight: "100px", lineHeight: 1.6 }}>
-                {categoryInfo.description || "No description available yet. This category helps you understand the fundamentals and importance of this exercise type in your fitness journey."}
+                {categoryInfo.description || t("categoryDetail.descriptionFallback")}
               </Typography>
             </Stack>
           </CardContent>
@@ -143,10 +151,10 @@ function CategoryDetail() {
             <Stack spacing={1.5}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <BuildCircleOutlinedIcon color="info" />
-                <Typography variant="h6">How to perform</Typography>
+                <Typography variant="h6">{t("categoryDetail.howTo")}</Typography>
               </Stack>
               <Typography color="text.secondary" sx={{ minHeight: "100px", lineHeight: 1.6 }}>
-                {categoryInfo.howTo || "Step-by-step instructions coming soon. Learn proper form and technique to maximize results safely."}
+                {categoryInfo.howTo || t("categoryDetail.howToFallback")}
               </Typography>
             </Stack>
           </CardContent>
@@ -157,10 +165,10 @@ function CategoryDetail() {
             <Stack spacing={1.5}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <BoltOutlinedIcon color="success" />
-                <Typography variant="h6">Benefit</Typography>
+                <Typography variant="h6">{t("categoryDetail.benefit")}</Typography>
               </Stack>
               <Typography color="text.secondary" sx={{ minHeight: "100px", lineHeight: 1.6 }}>
-                {categoryInfo.benefit || "Discover the health and fitness benefits of this exercise. Includes muscle development, endurance, and overall wellness improvements."}
+                {categoryInfo.benefit || t("categoryDetail.benefitFallback")}
               </Typography>
             </Stack>
           </CardContent>
@@ -181,12 +189,12 @@ function CategoryDetail() {
                 }}
               >
                 <Tab 
-                  label={`My Exercises (${exercises.length})`} 
+                  label={t("categoryDetail.myExercises", { count: exercises.length })} 
                   icon={<FitnessCenterOutlinedIcon sx={{ mr: 1 }} />}
                   iconPosition="start"
                 />
                 <Tab 
-                  label={`WGER Library (${wgerExercises.length})`}
+                  label={t("categoryDetail.wgerLibrary", { count: wgerExercises.length })}
                   icon={<PublicOutlinedIcon sx={{ mr: 1 }} />}
                   iconPosition="start"
                 />
@@ -216,7 +224,7 @@ function CategoryDetail() {
                             {ex.title}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                            Added to your workouts
+                            {t("categoryDetail.addedToWorkouts")}
                           </Typography>
                         </Stack>
                         <Chip 
@@ -230,7 +238,7 @@ function CategoryDetail() {
                   </Stack>
                 ) : (
                   <Typography color="text.secondary">
-                    No exercises added for this category yet.
+                    {t("categoryDetail.noLocalExercises")}
                   </Typography>
                 )}
               </>
@@ -265,7 +273,7 @@ function CategoryDetail() {
                         <CardContent sx={{ pb: 1.5 }}>
                           <Stack spacing={1}>
                             <Typography variant="subtitle2" sx={{ fontWeight: 600, minHeight: "2.4em" }}>
-                              {ex.name || "Unnamed exercise"}
+                              {getExerciseName(ex)}
                             </Typography>
                             
                             {ex.description && (
@@ -277,14 +285,14 @@ function CategoryDetail() {
                             <Stack direction="row" spacing={0.8} sx={{ flexWrap: "wrap", gap: 0.8 }}>
                               {ex.equipment && (
                                 <Chip 
-                                  label={ex.equipment.name || "Equipment"} 
+                                  label={ex.equipment.name || t("wger.equipment")} 
                                   size="small" 
                                   variant="outlined"
                                 />
                               )}
                               {ex.muscles && ex.muscles.length > 0 && (
                                 <Chip 
-                                  label={ex.muscles[0]?.name || "Muscle"} 
+                                  label={ex.muscles[0]?.name || t("wger.muscle")} 
                                   size="small" 
                                   variant="outlined"
                                 />
@@ -298,12 +306,12 @@ function CategoryDetail() {
                                 startIcon={<SchoolOutlinedIcon />}
                                 onClick={() => {
                                   setSelectedExerciseId(ex.id);
-                                  setSelectedExerciseName(ex.name);
+                                  setSelectedExerciseName(getExerciseName(ex));
                                   setInstructionsOpen(true);
                                 }}
                                 sx={{ flex: 1 }}
                               >
-                                Guide
+                                {t("wger.guide")}
                               </Button>
                             </Stack>
                           </Stack>
@@ -313,7 +321,7 @@ function CategoryDetail() {
                   </Box>
                 ) : (
                   <Typography color="text.secondary">
-                    No exercises from WGER library found for this category.
+                    {t("categoryDetail.noWgerExercises")}
                   </Typography>
                 )}
               </>

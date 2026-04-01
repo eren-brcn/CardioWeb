@@ -13,9 +13,11 @@ import {
 } from "@mui/material";
 import { loginUser } from "../services/authApi";
 import { saveAuthSession } from "../services/authStorage";
+import { useTranslation } from "react-i18next";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -35,7 +37,7 @@ function LoginPage() {
     setSuccessMessage("");
 
     if (!formData.email || !formData.password) {
-      setError("Please enter both email and password.");
+      setError(t("auth.enterEmailPassword"));
       return;
     }
 
@@ -43,10 +45,10 @@ function LoginPage() {
       setSubmitting(true);
       const response = await loginUser(formData);
       saveAuthSession(response.data);
-      setSuccessMessage("Login successful. Redirecting...");
+      setSuccessMessage(t("auth.loginSuccess"));
       setTimeout(() => navigate("/"), 500);
     } catch (requestError) {
-      setError(requestError?.response?.data?.message || "Login failed. Please try again.");
+      setError(requestError?.response?.data?.message || t("auth.loginFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -59,10 +61,10 @@ function LoginPage() {
           <Stack spacing={2.5} component="form" onSubmit={handleSubmit} noValidate>
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                Welcome Back
+                {t("auth.loginTitle")}
               </Typography>
               <Typography color="text.secondary">
-                Log in to continue tracking your workouts and progress.
+                {t("auth.loginSubtitle")}
               </Typography>
             </Box>
 
@@ -71,7 +73,7 @@ function LoginPage() {
 
             <TextField
               required
-              label="Email"
+              label={t("auth.email")}
               type="email"
               name="email"
               value={formData.email}
@@ -82,7 +84,7 @@ function LoginPage() {
 
             <TextField
               required
-              label="Password"
+              label={t("auth.password")}
               type="password"
               name="password"
               value={formData.password}
@@ -92,11 +94,11 @@ function LoginPage() {
             />
 
             <Button type="submit" variant="contained" size="large" disabled={submitting}>
-              {submitting ? "Logging in..." : "Login"}
+              {submitting ? t("auth.loggingIn") : t("nav.login")}
             </Button>
 
             <Typography variant="body2" color="text.secondary">
-              New here? <Link to="/signup">Create an account</Link>
+              {t("auth.newHere")} <Link to="/signup">{t("auth.createAccount")}</Link>
             </Typography>
           </Stack>
         </CardContent>

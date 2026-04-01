@@ -13,9 +13,11 @@ import {
 } from "@mui/material";
 import { registerUser } from "../services/authApi";
 import { saveAuthSession } from "../services/authStorage";
+import { useTranslation } from "react-i18next";
 
 function SignupPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -37,17 +39,17 @@ function SignupPage() {
     setSuccessMessage("");
 
     if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError("Please fill out all fields.");
+      setError(t("auth.fillAllFields"));
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters.");
+      setError(t("auth.passwordMin"));
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+      setError(t("auth.passwordsMismatch"));
       return;
     }
 
@@ -59,10 +61,10 @@ function SignupPage() {
         password: formData.password
       });
       saveAuthSession(response.data);
-      setSuccessMessage("Account created. Redirecting...");
+      setSuccessMessage(t("auth.signupSuccess"));
       setTimeout(() => navigate("/"), 500);
     } catch (requestError) {
-      setError(requestError?.response?.data?.message || "Sign up failed. Please try again.");
+      setError(requestError?.response?.data?.message || t("auth.signupFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -75,10 +77,10 @@ function SignupPage() {
           <Stack spacing={2.5} component="form" onSubmit={handleSubmit} noValidate>
             <Box>
               <Typography variant="h3" component="h1" gutterBottom>
-                Create Account
+                {t("auth.signupTitle")}
               </Typography>
               <Typography color="text.secondary">
-                Sign up to save exercises, track categories, and build your training history.
+                {t("auth.signupSubtitle")}
               </Typography>
             </Box>
 
@@ -87,7 +89,7 @@ function SignupPage() {
 
             <TextField
               required
-              label="Full Name"
+              label={t("auth.fullName")}
               name="fullName"
               value={formData.fullName}
               onChange={handleChange}
@@ -97,7 +99,7 @@ function SignupPage() {
 
             <TextField
               required
-              label="Email"
+              label={t("auth.email")}
               type="email"
               name="email"
               value={formData.email}
@@ -108,7 +110,7 @@ function SignupPage() {
 
             <TextField
               required
-              label="Password"
+              label={t("auth.password")}
               type="password"
               name="password"
               value={formData.password}
@@ -119,7 +121,7 @@ function SignupPage() {
 
             <TextField
               required
-              label="Confirm Password"
+              label={t("auth.confirmPassword")}
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -129,11 +131,11 @@ function SignupPage() {
             />
 
             <Button type="submit" variant="contained" size="large" disabled={submitting}>
-              {submitting ? "Creating account..." : "Sign Up"}
+              {submitting ? t("auth.creatingAccount") : t("nav.signup")}
             </Button>
 
             <Typography variant="body2" color="text.secondary">
-              Already have an account? <Link to="/login">Login</Link>
+              {t("auth.alreadyHaveAccount")} <Link to="/login">{t("nav.login")}</Link>
             </Typography>
           </Stack>
         </CardContent>

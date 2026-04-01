@@ -16,6 +16,7 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import { getWgerExercises } from "../services/wgerApi";
 import ExerciseInstructions from "./ExerciseInstructions";
+import { useTranslation } from "react-i18next";
 
 const getExerciseName = (exercise) => {
   const translations = exercise.translations || [];
@@ -24,6 +25,7 @@ const getExerciseName = (exercise) => {
 };
 
 function WgerExerciseFeed({ onImportExercise }) {
+  const { t } = useTranslation();
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -54,7 +56,7 @@ function WgerExerciseFeed({ onImportExercise }) {
         setOffset(PAGE_SIZE);
         setHasMore(Boolean(response.data?.next));
       } catch {
-        setError("Could not load exercises from WGER API.");
+        setError(t("wger.loadError"));
       } finally {
         setLoading(false);
       }
@@ -100,7 +102,7 @@ function WgerExerciseFeed({ onImportExercise }) {
       setOffset((prev) => prev + PAGE_SIZE);
       setHasMore(Boolean(response.data?.next));
     } catch {
-      setError("Could not load more exercises right now.");
+      setError(t("wger.loadMoreError"));
     } finally {
       setLoadingMore(false);
     }
@@ -118,20 +120,20 @@ function WgerExerciseFeed({ onImportExercise }) {
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} alignItems="center">
             <PublicOutlinedIcon color="primary" />
-            <Typography variant="h5">WGER Exercise Feed</Typography>
-            <Chip label="Live API" size="small" color="secondary" />
+            <Typography variant="h5">{t("wger.title")}</Typography>
+            <Chip label={t("wger.liveApi")} size="small" color="secondary" />
           </Stack>
 
           <Stack direction={{ xs: "column", md: "row" }} spacing={1.5}>
             <TextField
-              label="Search WGER exercises"
+              label={t("wger.search")}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               fullWidth
             />
             <TextField
               select
-              label="Filter category"
+              label={t("wger.filterCategory")}
               value={selectedCategory}
               onChange={(event) => setSelectedCategory(event.target.value)}
               sx={{ minWidth: { md: 220 } }}
@@ -184,7 +186,7 @@ function WgerExerciseFeed({ onImportExercise }) {
                   </Typography>
                   
                   <Typography variant="body2" color="text.secondary" sx={{ my: 1 }}>
-                    Category: {exercise.category?.name || "General"}
+                    {t("wger.category")}: {exercise.category?.name || t("wger.general")}
                   </Typography>
 
                   {exercise.description && (
@@ -196,14 +198,14 @@ function WgerExerciseFeed({ onImportExercise }) {
                   <Stack direction="row" spacing={0.8} sx={{ flexWrap: "wrap", my: 1, gap: 0.8 }}>
                     {exercise.equipment && (
                       <Chip 
-                        label={exercise.equipment.name || "Equipment"} 
+                        label={exercise.equipment.name || t("wger.equipment")} 
                         size="small" 
                         variant="outlined"
                       />
                     )}
                     {exercise.muscles && exercise.muscles.length > 0 && (
                       <Chip 
-                        label={exercise.muscles[0]?.name || "Muscle"} 
+                        label={exercise.muscles[0]?.name || t("wger.muscle")} 
                         size="small" 
                         variant="outlined"
                       />
@@ -218,7 +220,7 @@ function WgerExerciseFeed({ onImportExercise }) {
                       onClick={() => handleViewInstructions(exercise.id, getExerciseName(exercise))}
                       sx={{ flex: 1 }}
                     >
-                      Guide
+                      {t("wger.guide")}
                     </Button>
                     <Button
                       size="small"
@@ -226,7 +228,7 @@ function WgerExerciseFeed({ onImportExercise }) {
                       onClick={() => onImportExercise?.(exercise)}
                       sx={{ flex: 1 }}
                     >
-                      Import
+                      {t("wger.import")}
                     </Button>
                   </Stack>
                 </Box>
@@ -236,14 +238,14 @@ function WgerExerciseFeed({ onImportExercise }) {
 
           {!loading && filteredExercises.length === 0 && (
             <Typography variant="body2" color="text.secondary">
-              No WGER exercises match your search.
+              {t("wger.noMatch")}
             </Typography>
           )}
 
           {!loading && hasMore && (
             <Box>
               <Button variant="contained" onClick={handleLoadMore} disabled={loadingMore}>
-                {loadingMore ? "Loading..." : "Load more"}
+                {loadingMore ? t("wger.loading") : t("wger.loadMore")}
               </Button>
             </Box>
           )}

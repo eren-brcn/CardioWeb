@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { getCategories } from "../services/backendApi";
+import { useTranslation } from "react-i18next";
 
 function CategoriesPage() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,18 +29,18 @@ function CategoriesPage() {
         setCategories(res.data);
         setError("");
       })
-      .catch(() => setError("Unable to load categories at the moment."))
+      .catch(() => setError(t("categories.loadError")))
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   return (
     <Stack spacing={3}>
       <Box>
         <Typography variant="h3" component="h1" gutterBottom>
-          Training Guides
+          {t("categories.title")}
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Choose a category to get practical tips and guidance before your next session.
+          {t("categories.subtitle")}
         </Typography>
       </Box>
 
@@ -69,11 +71,11 @@ function CategoriesPage() {
                       <Avatar sx={{ bgcolor: "primary.main", color: "#03211d", fontWeight: 800 }}>
                         {cat.name?.slice(0, 1)}
                       </Avatar>
-                      <Chip icon={<ArrowOutwardIcon />} label="Open" size="small" />
+                      <Chip icon={<ArrowOutwardIcon />} label={t("categories.open")} size="small" />
                     </Stack>
                     <Typography variant="h5">{cat.name}</Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {cat.description || `Explore the ${cat.name} training guide.`}
+                      {cat.description || t("categories.exploreFallback", { category: cat.name })}
                     </Typography>
                   </Stack>
                 </CardContent>
