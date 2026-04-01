@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import {
   Alert,
   Box,
@@ -18,7 +17,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import SearchIcon from "@mui/icons-material/Search";
 import AddExercise from "./AddExercise";
-import { API_URL } from "../config/api";
+import { deleteExercise, getExercises } from "../services/backendApi";
 
 function ExerciseList({ importedExercise }) {
   const [exercises, setExercises] = useState([]);
@@ -30,7 +29,7 @@ function ExerciseList({ importedExercise }) {
     try {
       setError("");
       setLoading(true);
-      const response = await axios.get(`${API_URL}/exercises`);
+      const response = await getExercises();
       const sortedExercises = [...response.data].sort((a, b) =>
         String(a.title).localeCompare(String(b.title))
       );
@@ -62,7 +61,7 @@ function ExerciseList({ importedExercise }) {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/exercises/${id}`);
+      await deleteExercise(id);
       setExercises((prev) => prev.filter((exercise) => exercise.id !== id));
     } catch {
       setError("Could not delete this exercise.");

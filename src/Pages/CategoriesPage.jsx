@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import {
   Alert,
@@ -14,7 +13,7 @@ import {
   Typography
 } from "@mui/material";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import { API_URL } from "../config/api";
+import { getCategories } from "../services/backendApi";
 
 function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -23,7 +22,7 @@ function CategoriesPage() {
 
   useEffect(() => {
     // // Fetching the categories backend  
-    axios.get(`${API_URL}/categories`)
+    getCategories()
       .then((res) => {
         setCategories(res.data);
         setError("");

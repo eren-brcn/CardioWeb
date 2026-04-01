@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import {
   Alert,
   Box,
@@ -12,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { API_URL } from "../config/api";
+import { addExercise } from "../services/backendApi";
 
 const baseCategories = ["Chest", "Back", "Legs", "Cardio", "Yoga"];
 
@@ -60,9 +59,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
     setTitle(importedExercise.name || "");
     setCategory(mapWgerCategoryToLocal(importedExercise.category?.name));
 
-    if (!weight) {
-      setWeight("20");
-    }
+    setWeight((prev) => prev || "20");
   }, [importedExercise]);
 
   const handleSubmit = async (e) => {
@@ -78,8 +75,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
     };
 
     try {
-      // POST sends the new data to your Render backend
-      await axios.post(`${API_URL}/exercises`, newExercise);
+      await addExercise(newExercise);
       
       // Reset form fields
       setTitle("");
@@ -87,7 +83,7 @@ function AddExercise({ onExerciseAdded, importedExercise }) {
       
       // Trigger the refresh in the parent component
       onExerciseAdded(); 
-    } catch (err) {
+    } catch {
       setError("Could not add exercise. Please check the API and try again.");
     }
   };

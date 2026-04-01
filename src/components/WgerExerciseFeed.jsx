@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 import {
   Alert,
   Box,
@@ -14,7 +13,9 @@ import {
   Typography
 } from "@mui/material";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import { WGER_API_URL } from "../config/api";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import { getWgerExercises } from "../services/wgerApi";
+import ExerciseInstructions from "./ExerciseInstructions";
 
 function WgerExerciseFeed({ onImportExercise }) {
   const [exercises, setExercises] = useState([]);
@@ -25,6 +26,9 @@ function WgerExerciseFeed({ onImportExercise }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedExerciseId, setSelectedExerciseId] = useState(null);
+  const [selectedExerciseName, setSelectedExerciseName] = useState("");
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
 
   const PAGE_SIZE = 12;
 
@@ -34,12 +38,10 @@ function WgerExerciseFeed({ onImportExercise }) {
         setError("");
         setLoading(true);
 
-        const response = await axios.get(`${WGER_API_URL}/exerciseinfo/`, {
-          params: {
-            language: 2,
-            limit: PAGE_SIZE,
-            offset: 0
-          }
+        const response = await getWgerExercises({
+          language: 2,
+          limit: PAGE_SIZE,
+          offset: 0
         });
 
         setExercises(response.data?.results || []);
@@ -81,12 +83,10 @@ function WgerExerciseFeed({ onImportExercise }) {
       setError("");
       setLoadingMore(true);
 
-      const response = await axios.get(`${WGER_API_URL}/exerciseinfo/`, {
-        params: {
-          language: 2,
-          limit: PAGE_SIZE,
-          offset
-        }
+      const response = await getWgerExercises({
+        language: 2,
+        limit: PAGE_SIZE,
+        offset
       });
 
       const nextItems = response.data?.results || [];
@@ -98,6 +98,12 @@ function WgerExerciseFeed({ onImportExercise }) {
     } finally {
       setLoadingMore(false);
     }
+  };
+
+  const handleViewInstructions = (exerciseId, exerciseName) => {
+    setSelectedExerciseId(exerciseId);
+    setSelectedExerciseName(exerciseName);
+    setInstructionsOpen(true);
   };
 
   return (
@@ -157,23 +163,66 @@ function WgerExerciseFeed({ onImportExercise }) {
                     border: "1px solid rgba(255,255,255,0.08)",
                     borderRadius: 2,
                     p: 1.5,
-                    backgroundColor: "rgba(255,255,255,0.02)"
+                    backgroundColor: "rgba(255,255,255,0.02)",
+                    transition: "all 0.2s ease",
+                    display: "flex",
+                    flexDirection: "column",
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.06)",
+                      borderColor: "rgba(255,255,255,0.16)"
+                    }
                   }}
                 >
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 700, minHeight: "2.4em" }}>
                     {exercise.name || "Unnamed exercise"}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  
+                  <Typography variant="body2" color="text.secondary" sx={{ my: 1 }}>
                     Category: {exercise.category?.name || "General"}
                   </Typography>
-                  <Button
-                    size="small"
-                    sx={{ mt: 1 }}
-                    variant="outlined"
-                    onClick={() => onImportExercise?.(exercise)}
-                  >
-                    Import to my workout
-                  </Button>
+
+                  {exercise.description && (
+                    <Typography variant="caption" color="text.secondary" sx={{ mb: 1 }}>
+                      {exercise.description.substring(0, 80)}...
+                    </Typography>
+                  )}
+
+                  <Stack direction="row" spacing={0.8} sx={{ flexWrap: "wrap", my: 1, gap: 0.8 }}>
+                    {exercise.equipment && (
+                      <Chip 
+                        label={exercise.equipment.name || "Equipment"} 
+                        size="small" 
+                        variant="outlined"
+                      />
+                    )}
+                    {exercise.muscles && exercise.muscles.length > 0 && (
+                      <Chip 
+                        label={exercise.muscles[0]?.name || "Muscle"} 
+                        size="small" 
+                        variant="outlined"
+                      />
+                    )}
+                  </Stack>
+
+                  <Stack direction="row" spacing={1} sx={{ mt: "auto" }}>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<SchoolOutlinedIcon />}
+                      onClick={() => handleViewInstructions(exercise.id, exercise.name)}
+                      sx={{ flex: 1 }}
+                    >
+                      Guide
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => onImportExercise?.(exercise)}
+                      sx={{ flex: 1 }}
+                    >
+                      Import
+                    </Button>
+                  </Stack>
                 </Box>
               ))}
             </Box>
@@ -194,6 +243,13 @@ function WgerExerciseFeed({ onImportExercise }) {
           )}
         </Stack>
       </CardContent>
+
+      <ExerciseInstructions
+        open={instructionsOpen}
+        exerciseId={selectedExerciseId}
+        exerciseName={selectedExerciseName}
+        onClose={() => setInstructionsOpen(false)}
+      />
     </Card>
   );
 }
