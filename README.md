@@ -1,45 +1,57 @@
 # CardioWeb Frontend
 
-CardioWeb is a multilingual fitness tracking frontend built with React and Vite. It provides workout tracking, user profile analytics, training guides, and personal program management.
+CardioWeb is the frontend app for tracking workouts, following category-based exercise guides, and monitoring personal progress over time.
 
-## Live
+It focuses on a simple flow:
+- add workouts
+- explore the workout library
+- build your own programs
+- track progress with charts
+
+## Live Links
 - Frontend: https://cardio-web.vercel.app
 - Backend API: https://cardio-backend-1-lq31.onrender.com
 
-## Features
-- Authentication: signup/login with JWT session handling
-- Workout management: add, list, search, and delete exercises
-- Profile analytics: progress charts (bar and line) based on personal workout history
-- Program center: create and manage personal workout programs
-- Training guides: category detail pages plus WGER exercise library integration
-- Legal/support pages: privacy, support, and terms
-- Internationalization: English, Turkish, German, French, Spanish
+## What Is Included
+- Auth flow: signup, login, protected pages
+- Workout tracking: add, search, list, delete
+- Profile analytics: progress charts and summary
+- Program center: create and manage personal programs
+- Workout library: local + WGER-backed category detail pages
+- Settings: export account data and delete account flow
+- Legal pages: privacy, support, terms
+- i18n support: English, Turkish, German, French, Spanish
 
 ## Tech Stack
-- React 19 + Vite 6
+- React 19
+- Vite 6
 - Material UI 7
 - React Router
 - Axios
 - Recharts
 - i18next + react-i18next
 
-## Environment Variables
-Create an .env.local file with:
+## Local Setup
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Create `.env.local` in project root:
 
 ```env
 VITE_API_URL=https://cardio-backend-1-lq31.onrender.com
 VITE_WGER_API_URL=https://wger.de/api/v2
 ```
 
-## Run Locally
-Install dependencies and start dev server:
+3. Start development server:
 
 ```bash
-npm install
 npm run dev
 ```
 
-Build for production:
+4. Build for production (optional local check):
 
 ```bash
 npm run build
@@ -47,8 +59,9 @@ npm run preview
 ```
 
 ## Main Routes
-- / (dashboard)
+- /
 - /profile
+- /settings
 - /categories
 - /categories/:categoryName
 - /login
@@ -57,7 +70,15 @@ npm run preview
 - /support
 - /terms
 
+## API Expectations
+The frontend expects these backend route groups to exist:
+- /auth
+- /users
+- /programs
+- /exercises
+- /categories
+- /health
+
 ## Notes
-- All user-facing pages use route-based protection where required.
-- Language preference is persisted in localStorage.
-- The frontend expects the backend to expose /auth, /users, /programs, /exercises, /categories, and /health endpoints.
+- Language choice is stored in localStorage.
+- Protected pages redirect when session is missing.

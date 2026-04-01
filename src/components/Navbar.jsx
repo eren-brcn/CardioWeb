@@ -2,6 +2,7 @@ import { AppBar, Box, Button, MenuItem, TextField, Toolbar, Typography } from "@
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
@@ -18,7 +19,8 @@ function Navbar() {
 	const privateLinks = [
 		{ to: "/", label: t("nav.dashboard"), icon: <DashboardOutlinedIcon fontSize="small" /> },
 		{ to: "/profile", label: t("nav.profile"), icon: <PersonOutlineOutlinedIcon fontSize="small" /> },
-		{ to: "/categories", label: t("nav.trainingGuides"), icon: <MenuBookOutlinedIcon fontSize="small" /> }
+		{ to: "/categories", label: t("nav.trainingGuides"), icon: <MenuBookOutlinedIcon fontSize="small" /> },
+		{ to: "/settings", label: t("nav.settings"), icon: <SettingsOutlinedIcon fontSize="small" /> }
 	];
 
 	const publicLinks = [

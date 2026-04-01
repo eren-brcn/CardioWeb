@@ -9,6 +9,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import {
   Bar,
   BarChart,
@@ -25,6 +26,8 @@ import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -61,6 +64,14 @@ function ProfilePage() {
       latest: item.latestWeight
     }));
   }, [progress]);
+
+  const formatExerciseLabel = (value) => {
+    const text = String(value || "");
+    if (!isMobile) {
+      return text;
+    }
+    return text.length > 10 ? `${text.slice(0, 10)}...` : text;
+  };
 
   return (
     <Stack spacing={3}>
@@ -107,9 +118,16 @@ function ProfilePage() {
                   <ResponsiveContainer>
                     <BarChart data={improvementData} margin={{ top: 10, right: 12, left: 2, bottom: 30 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
-                      <XAxis dataKey="exercise" angle={-20} textAnchor="end" height={70} interval={0} />
+                      <XAxis
+                        dataKey="exercise"
+                        angle={isMobile ? 0 : -20}
+                        textAnchor={isMobile ? "middle" : "end"}
+                        height={isMobile ? 50 : 70}
+                        interval={0}
+                        tickFormatter={formatExerciseLabel}
+                      />
                       <YAxis />
-                      <Tooltip />
+                      <Tooltip labelFormatter={(label) => String(label || "")} formatter={(value) => [`${value} kg`, t("profile.totalImprovement")]} />
                       <Bar dataKey="improvement" fill="#00c2a8" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -131,9 +149,16 @@ function ProfilePage() {
                   <ResponsiveContainer>
                     <LineChart data={volumeData} margin={{ top: 10, right: 12, left: 2, bottom: 30 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
-                      <XAxis dataKey="exercise" angle={-20} textAnchor="end" height={70} interval={0} />
+                      <XAxis
+                        dataKey="exercise"
+                        angle={isMobile ? 0 : -20}
+                        textAnchor={isMobile ? "middle" : "end"}
+                        height={isMobile ? 50 : 70}
+                        interval={0}
+                        tickFormatter={formatExerciseLabel}
+                      />
                       <YAxis />
-                      <Tooltip />
+                      <Tooltip labelFormatter={(label) => String(label || "")} />
                       <Line type="monotone" dataKey="first" stroke="#ff8f3f" strokeWidth={2} dot />
                       <Line type="monotone" dataKey="latest" stroke="#00c2a8" strokeWidth={2} dot />
                     </LineChart>

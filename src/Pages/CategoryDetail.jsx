@@ -21,7 +21,8 @@ import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import { getCategories, getExercises } from "../services/backendApi";
+import PlaylistAddCircleOutlinedIcon from "@mui/icons-material/PlaylistAddCircleOutlined";
+import { createProgram, getCategories, getExercises } from "../services/backendApi";
 import { getWgerExercises } from "../services/wgerApi";
 import ExerciseInstructions from "../components/ExerciseInstructions";
 import { useTranslation } from "react-i18next";
@@ -47,6 +48,7 @@ function CategoryDetail() {
   const [selectedExerciseId, setSelectedExerciseId] = useState(null);
   const [selectedExerciseName, setSelectedExerciseName] = useState("");
   const [instructionsOpen, setInstructionsOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const getDetailData = async () => {
@@ -59,19 +61,19 @@ function CategoryDetail() {
           getWgerExercises({ limit: 100, offset: 0 })
         ]);
 
-        // Matches the name from the URL to the JSON data
+        // Resolve the category from URL safely (case-insensitive).
         const foundCat = catRes.data.find(
           (c) => String(c.name).toLowerCase() === decodedCategoryName.toLowerCase()
         );
         setCategoryInfo(foundCat);
 
-        // Filters list to show only exercises for this category
+        // Show only local exercises linked to the selected category.
         const filteredEx = exRes.data.filter(
           (ex) => String(ex.category).toLowerCase() === decodedCategoryName.toLowerCase()
         );
         setExercises(filteredEx);
 
-        // Filter Wger exercises by category name
+        // Same filter for WGER records so both tabs stay aligned.
         const wgerFiltered = (wgerRes.data?.results || []).filter(
           (ex) => ex.category?.name && 
                   String(ex.category.name).toLowerCase() === decodedCategoryName.toLowerCase()
@@ -86,6 +88,39 @@ function CategoryDetail() {
 
     getDetailData();
   }, [decodedCategoryName, t]);
+
+  const handleAddToProgram = async (exerciseName) => {
+    try {
+      setError("");
+      setSuccessMessage("");
+
+      // Build a minimal starter program from the selected exercise.
+      await createProgram({
+        name: `${exerciseName} ${t("categoryDetail.programSuffix")}`,
+        description: t("categoryDetail.programDescription", { category: decodedCategoryName }),
+        duration: 4,
+        difficulty: "beginner",
+        phases: [
+          {
+            week: 1,
+            description: t("categoryDetail.phaseDescription"),
+            exercises: [
+              {
+                name: exerciseName,
+                sets: 3,
+                reps: 10,
+                intensity: "medium"
+              }
+            ]
+          }
+        ]
+      });
+
+      setSuccessMessage(t("categoryDetail.programAdded", { exercise: exerciseName }));
+    } catch {
+      setError(t("categoryDetail.programAddError"));
+    }
+  };
 
   if (loading) {
     return (
@@ -110,6 +145,7 @@ function CategoryDetail() {
   return (
     <Stack spacing={3}>
       {error && <Alert severity="error">{error}</Alert>}
+      {successMessage && <Alert severity="success">{successMessage}</Alert>}
 
       <Button onClick={() => navigate(-1)} sx={{ alignSelf: "flex-start" }} startIcon={<ArrowBackIcon />}>
         {t("categoryDetail.back")}
@@ -233,6 +269,14 @@ function CategoryDetail() {
                           color="primary" 
                           variant="outlined" 
                         />
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          startIcon={<PlaylistAddCircleOutlinedIcon />}
+                          onClick={() => handleAddToProgram(ex.title)}
+                        >
+                          {t("categoryDetail.addToProgram")}
+                        </Button>
                       </Stack>
                     ))}
                   </Stack>
@@ -312,6 +356,15 @@ function CategoryDetail() {
                                 sx={{ flex: 1 }}
                               >
                                 {t("wger.guide")}
+                              </Button>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                startIcon={<PlaylistAddCircleOutlinedIcon />}
+                                onClick={() => handleAddToProgram(getExerciseName(ex))}
+                                sx={{ flex: 1 }}
+                              >
+                                {t("categoryDetail.addToProgram")}
                               </Button>
                             </Stack>
                           </Stack>

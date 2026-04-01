@@ -1,8 +1,17 @@
 {
+  "app": {
+    "loading": "Loading..."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or was moved.",
+    "cta": "Back to dashboard"
+  },
   "nav": {
     "dashboard": "Dashboard",
     "profile": "Profile",
-    "trainingGuides": "Training Guides",
+    "trainingGuides": "Workout Library",
+    "settings": "Settings",
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",
@@ -16,7 +25,13 @@
   },
   "dashboard": {
     "title": "Train Smarter, Not Just Harder",
-    "subtitle": "Log every set, monitor progress, and keep each workout aligned with your category goals."
+    "subtitle": "Log every set, monitor progress, and keep each workout aligned with your category goals.",
+    "recommendedTitle": "Recommended guides for your recent workouts",
+    "recommendedSubtitle": "We picked these categories based on what you train most.",
+    "recommendedEmpty": "Add workouts to get smart recommendations.",
+    "recommendedLoading": "Loading your recommendations...",
+    "recommendedLoadError": "Recommendations are unavailable right now.",
+    "retry": "Retry"
   },
   "exercise": {
     "addTitle": "Add New Workout",
@@ -49,11 +64,12 @@
     "noMatch": "No WGER exercises match your search."
   },
   "categories": {
-    "title": "Training Guides",
+    "title": "Workout Library",
     "subtitle": "Choose a category to get practical tips and guidance before your next session.",
     "open": "Open",
     "loadError": "Unable to load categories at the moment.",
-    "exploreFallback": "Explore the {{category}} training guide."
+    "exploreFallback": "Explore the {{category}} training guide.",
+    "pinnedTitle": "Top 3 categories you use most"
   },
   "categoryDetail": {
     "loadError": "Could not load this guide right now.",
@@ -71,7 +87,13 @@
     "wgerLibrary": "WGER Library ({{count}})",
     "addedToWorkouts": "Added to your workouts",
     "noLocalExercises": "No exercises added for this category yet.",
-    "noWgerExercises": "No exercises from WGER library found for this category."
+    "noWgerExercises": "No exercises from WGER library found for this category.",
+    "addToProgram": "Add to my program",
+    "programAddError": "Could not add this exercise to a program right now.",
+    "programAdded": "{{exercise}} was added to your program library.",
+    "programSuffix": "Starter Program",
+    "programDescription": "Auto-generated from {{category}} guide.",
+    "phaseDescription": "Start with form-focused sessions and progress weekly."
   },
   "programs": {
     "title": "My Programs",
@@ -90,7 +112,17 @@
     "noChart": "Add workouts to see your progress chart here.",
     "loadError": "Could not load your program or progress data.",
     "createError": "Could not create your program right now.",
-    "deleteError": "Could not delete this program."
+    "deleteError": "Could not delete this program.",
+    "nameMinError": "Program name must be at least 3 characters.",
+    "nameMaxError": "Program name must be 60 characters or fewer.",
+    "durationRangeError": "Duration must be between 1 and 52 weeks.",
+    "descriptionMaxError": "Description must be 280 characters or fewer."
+    ,"weeksLabel": "weeks",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    }
   },
   "auth": {
     "email": "Email",
@@ -125,6 +157,31 @@
     "noChart": "No chart data yet. Add workouts to see progress.",
     "noLine": "No line chart data available yet.",
     "loadError": "Could not load your progress profile right now."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account data and privacy controls.",
+    "exportTitle": "Export my data",
+    "exportDesc": "Download your profile and workout records as a JSON file.",
+    "exportButton": "Export data",
+    "exportDone": "Your data export was downloaded.",
+    "exportError": "Could not export your data right now.",
+    "deleteTitle": "Delete account",
+    "deleteDesc": "This permanently removes your account and all saved workouts.",
+    "deleteButton": "Delete my account",
+    "deleteConfirm": "Are you sure you want to permanently delete your account?",
+    "deleteError": "Could not delete your account right now.",
+    "deleteDialogTitle": "Confirm account deletion",
+    "deleteDialogBody": "This action is permanent and cannot be undone.",
+    "deleteConfirmHint": "Type {{keyword}} to confirm",
+    "deleteConfirmLabel": "Confirmation",
+    "deleteConfirmPlaceholder": "DELETE",
+    "deleteKeyword": "DELETE",
+    "cancel": "Cancel",
+    "confirmDelete": "Permanently delete",
+    "deletedTitle": "Your account has been deleted.",
+    "deletedBody": "Your workout data has been removed from CardioWeb.",
+    "deletedCta": "Create a new account"
   },
   "privacy": {
     "title": "Privacy Policy",

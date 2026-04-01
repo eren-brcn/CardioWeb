@@ -40,6 +40,7 @@ function UserProgramCenter() {
   const [duration, setDuration] = useState("8");
   const [difficulty, setDifficulty] = useState("intermediate");
   const [description, setDescription] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const chartData = useMemo(() => {
     return (progress?.exerciseProgress || []).map((item) => ({
@@ -67,16 +68,44 @@ function UserProgramCenter() {
     loadData();
   }, []);
 
+  const validateProgramForm = () => {
+    const nextErrors = {};
+    const trimmedName = name.trim();
+    const trimmedDescription = description.trim();
+    const durationValue = Number(duration);
+
+    if (trimmedName.length < 3) {
+      nextErrors.name = t("programs.nameMinError");
+    } else if (trimmedName.length > 60) {
+      nextErrors.name = t("programs.nameMaxError");
+    }
+
+    if (!Number.isFinite(durationValue) || durationValue < 1 || durationValue > 52) {
+      nextErrors.duration = t("programs.durationRangeError");
+    }
+
+    if (trimmedDescription.length > 280) {
+      nextErrors.description = t("programs.descriptionMaxError");
+    }
+
+    // Collect all field errors at once so user can fix everything in one pass.
+    setFieldErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
   const handleCreateProgram = async (event) => {
     event.preventDefault();
+    if (!validateProgramForm()) {
+      return;
+    }
 
     try {
       setError("");
       setSaving(true);
 
       await createProgram({
-        name,
-        description,
+        name: name.trim(),
+        description: description.trim(),
         duration: Number(duration),
         difficulty,
         phases: []
@@ -86,6 +115,7 @@ function UserProgramCenter() {
       setDescription("");
       setDuration("8");
       setDifficulty("intermediate");
+      setFieldErrors({});
 
       await loadData();
     } catch {
@@ -120,27 +150,48 @@ function UserProgramCenter() {
                 <TextField
                   label={t("programs.name")}
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (fieldErrors.name) {
+                      setFieldErrors((prev) => ({ ...prev, name: "" }));
+                    }
+                  }}
                   required
                   fullWidth
+                  error={Boolean(fieldErrors.name)}
+                  helperText={fieldErrors.name}
                 />
                 <TextField
                   label={t("programs.description")}
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                    if (fieldErrors.description) {
+                      setFieldErrors((prev) => ({ ...prev, description: "" }));
+                    }
+                  }}
                   multiline
                   minRows={2}
                   fullWidth
+                  error={Boolean(fieldErrors.description)}
+                  helperText={fieldErrors.description || `${description.trim().length}/280`}
                 />
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                   <TextField
                     label={t("programs.duration")}
                     type="number"
                     value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
+                    onChange={(e) => {
+                      setDuration(e.target.value);
+                      if (fieldErrors.duration) {
+                        setFieldErrors((prev) => ({ ...prev, duration: "" }));
+                      }
+                    }}
                     required
-                    inputProps={{ min: 1 }}
+                    inputProps={{ min: 1, max: 52 }}
                     fullWidth
+                    error={Boolean(fieldErrors.duration)}
+                    helperText={fieldErrors.duration}
                   />
                   <TextField
                     select
@@ -151,13 +202,13 @@ function UserProgramCenter() {
                   >
                     {difficulties.map((level) => (
                       <MenuItem key={level} value={level}>
-                        {level}
+                        {t(`programs.levels.${level}`)}
                       </MenuItem>
                     ))}
                   </TextField>
                 </Stack>
                 <Box>
-                  <Button type="submit" variant="contained" disabled={saving || !name.trim()}>
+                  <Button type="submit" variant="contained" disabled={saving}>
                     {saving ? t("programs.creating") : t("programs.create")}
                   </Button>
                 </Box>
@@ -201,8 +252,8 @@ function UserProgramCenter() {
                       <Box>
                         <Typography sx={{ fontWeight: 600 }}>{program.name}</Typography>
                         <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
-                          <Chip size="small" label={`${program.duration} weeks`} />
-                          <Chip size="small" label={program.difficulty} variant="outlined" />
+                          <Chip size="small" label={`${program.duration} ${t("programs.weeksLabel")}`} />
+                          <Chip size="small" label={t(`programs.levels.${program.difficulty}`)} variant="outlined" />
                         </Stack>
                       </Box>
                       <IconButton color="error" onClick={() => handleDeleteProgram(program._id)}>
