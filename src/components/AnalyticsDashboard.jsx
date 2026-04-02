@@ -71,6 +71,7 @@ function AnalyticsDashboard() {
     try {
       setError("");
       setLoading(true);
+      // Pull independent datasets in parallel to keep dashboard load time reasonable.
       const [measRes, goalsRes, progRes] = await Promise.all([
         getMeasurements(),
         getGoals(),
@@ -161,6 +162,7 @@ function AnalyticsDashboard() {
 
   const handleUpdateGoal = async (goalId, updates) => {
     try {
+      // Backend computes progress from currentValue/targetValue, so only send raw updates.
       await updateGoal(goalId, updates);
       await loadData();
     } catch {

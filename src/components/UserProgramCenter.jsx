@@ -45,6 +45,7 @@ function UserProgramCenter() {
   const [fieldErrors, setFieldErrors] = useState({});
 
   const chartData = useMemo(() => {
+    // Pre-shape API progress into chart-friendly records once per progress change.
     return (progress?.exerciseProgress || []).map((item) => ({
       exercise: item.exerciseName,
       improvement: item.improvementKg,
@@ -56,6 +57,7 @@ function UserProgramCenter() {
     try {
       setError("");
       setLoading(true);
+      // Keep the program list and progress panel in sync by loading together.
       const [programRes, progressRes] = await Promise.all([getMyPrograms(), getMyProgress()]);
       setPrograms(programRes.data || []);
       setProgress(progressRes.data || null);

@@ -47,6 +47,7 @@ function NotificationBell() {
   const loadNotifications = async () => {
     try {
       setLoading(true);
+      // Fetch list + unread counter together so badge and panel stay in sync.
       const res = await getNotifications();
       setNotifications(res.data || []);
       const countRes = await getUnreadNotificationsCount();
@@ -71,6 +72,7 @@ function NotificationBell() {
   const handleMarkAsRead = async (notificationId) => {
     try {
       await markNotificationAsRead(notificationId);
+      // Optimistic local update avoids a second list fetch after each click.
       setNotifications((prev) =>
         prev.map((n) => (n._id === notificationId ? { ...n, read: true } : n))
       );
@@ -116,6 +118,7 @@ function NotificationBell() {
 
   useEffect(() => {
     loadPreferences();
+    // Keep badge fresh while user is navigating around the app.
     const interval = setInterval(async () => {
       const countRes = await getUnreadNotificationsCount();
       setUnreadCount(countRes.data?.unreadCount || 0);
