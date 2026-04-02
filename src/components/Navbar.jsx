@@ -7,9 +7,11 @@ import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { NavLink, useNavigate } from "react-router-dom";
 import { clearAuthSession, hasAuthSession } from "../services/authStorage";
 import { useTranslation } from "react-i18next";
+import NotificationBell from "./NotificationBell.jsx";
 
 function Navbar() {
 	const navigate = useNavigate();
@@ -20,6 +22,7 @@ function Navbar() {
 		{ to: "/", label: t("nav.dashboard"), icon: <DashboardOutlinedIcon fontSize="small" /> },
 		{ to: "/profile", label: t("nav.profile"), icon: <PersonOutlineOutlinedIcon fontSize="small" /> },
 		{ to: "/categories", label: t("nav.trainingGuides"), icon: <MenuBookOutlinedIcon fontSize="small" /> },
+		{ to: "/leaderboard", label: "Leaderboard", icon: <EmojiEventsIcon fontSize="small" /> },
 		{ to: "/settings", label: t("nav.settings"), icon: <SettingsOutlinedIcon fontSize="small" /> }
 	];
 
@@ -93,6 +96,7 @@ function Navbar() {
 
 					{isAuthenticated && (
 						<>
+							<NotificationBell />
 							<Button
 								onClick={handleLogout}
 								startIcon={<LogoutOutlinedIcon fontSize="small" />}

@@ -28,3 +28,8 @@ export const getAuthUser = () => {
     return null;
   }
 };
+
+export const getUserId = () => {
+  const user = getAuthUser();
+  return user?.id || user?._id || null;
+};

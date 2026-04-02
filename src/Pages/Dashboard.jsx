@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import ExerciseList from '../components/ExerciseList.jsx';
 import WgerExerciseFeed from '../components/WgerExerciseFeed.jsx';
 import UserProgramCenter from '../components/UserProgramCenter.jsx';
+import NutritionTracker from '../components/NutritionTracker.jsx';
+import AnalyticsDashboard from '../components/AnalyticsDashboard.jsx';
 import { Alert, Button, Card, CardContent, Chip, CircularProgress, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { getCategories, getExercises } from '../services/backendApi';
@@ -104,6 +106,8 @@ function Dashboard() {
       </Card>
 
       <ExerciseList importedExercise={importedExercise} />
+      <NutritionTracker />
+      <AnalyticsDashboard />
       <UserProgramCenter />
       <WgerExerciseFeed onImportExercise={setImportedExercise} />
     </Stack>

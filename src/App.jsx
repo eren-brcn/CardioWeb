@@ -17,6 +17,9 @@ const SettingsPage = lazy(() => import('./Pages/SettingsPage.jsx'));
 const PrivacyPage = lazy(() => import('./Pages/PrivacyPage.jsx'));
 const SupportPage = lazy(() => import('./Pages/SupportPage.jsx'));
 const TermsPage = lazy(() => import('./Pages/TermsPage.jsx'));
+const ProgramDetailPage = lazy(() => import('./Pages/ProgramDetailPage.jsx'));
+const LeaderboardPage = lazy(() => import('./Pages/LeaderboardPage.jsx'));
+const UserProfilePage = lazy(() => import('./Pages/UserProfilePage.jsx'));
 const NotFoundPage = lazy(() => import('./Pages/NotFoundPage.jsx'));
 
 function PublicOnlyRoute({ children }) {
@@ -47,6 +50,9 @@ function App() {
               <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
               <Route path="/categories" element={<ProtectedRoute><CategoriesPage /></ProtectedRoute>} />
               <Route path="/categories/:categoryName" element={<ProtectedRoute><CategoryDetail /></ProtectedRoute>} />
+              <Route path="/programs/:programId" element={<ProtectedRoute><ProgramDetailPage /></ProtectedRoute>} />
+              <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
+              <Route path="/users/:userId" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
               <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
               <Route path="/signup" element={<PublicOnlyRoute><SignupPage /></PublicOnlyRoute>} />
               <Route path="/privacy" element={<PrivacyPage />} />

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Alert,
   Box,
@@ -29,6 +30,7 @@ import { useTranslation } from "react-i18next";
 const difficulties = ["beginner", "intermediate", "advanced"];
 
 function UserProgramCenter() {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [programs, setPrograms] = useState([]);
   const [progress, setProgress] = useState(null);
@@ -246,10 +248,16 @@ function UserProgramCenter() {
                         border: "1px solid rgba(255,255,255,0.08)",
                         borderRadius: 2,
                         px: 1.5,
-                        py: 1
+                        py: 1,
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        "&:hover": {
+                          backgroundColor: "rgba(0,194,168,0.08)",
+                          borderColor: "rgba(0,194,168,0.3)"
+                        }
                       }}
                     >
-                      <Box>
+                      <Box onClick={() => navigate(`/programs/${program._id}`)} sx={{ flex: 1 }}>
                         <Typography sx={{ fontWeight: 600 }}>{program.name}</Typography>
                         <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
                           <Chip size="small" label={`${program.duration} ${t("programs.weeksLabel")}`} />
